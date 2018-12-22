@@ -376,6 +376,64 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0010
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public bool IsMatch(string s, string p)
+        {
+            if (s == null || p == null)
+                return false;
+            if (s == "" && p == "")
+                return true;
+            if (s != "" && p == "")
+                return false;
+            if (p[0] == '*')
+                return false;
+            var sIndex = 0;
+            var pIndex = 0;
+            while (sIndex < s.Length || pIndex < p.Length)
+            {
+                if (p[pIndex] == '*')
+                {
+                    if (p[pIndex - 1] == '.')
+                    {
+
+                    }
+                    else if (p[pIndex - 1] == '*')
+                    {
+                        break;
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else if (p[pIndex] == '.')
+                {
+                    pIndex++;
+                    sIndex++;
+                }
+                else//a-z
+                {
+                    if (p[pIndex] == s[sIndex])
+                    {
+                        pIndex++;
+                        sIndex++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+
+        /// <summary>
         /// LC_0011
         /// </summary>
         /// <param name="height"></param>
@@ -498,6 +556,149 @@ namespace LeetCode
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// LC_0013
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public int RomanToInt(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+
+            var dic = new Dictionary<string, int>() {
+                { "M", 1000 },
+                { "CM",900},
+                { "D", 500 },
+                { "CD", 400 },
+                { "C", 100},
+                { "XC", 90},
+                { "L", 50 },
+                { "XL", 40 },
+                { "X" , 10},
+                { "IX", 9 },
+                { "V", 5 },
+                { "IV", 4 },
+                { "I", 1 }
+            };
+            var value = 0;
+            var result = s;
+            while (result.Length > 0)
+            {
+                if (result.StartsWith("M"))
+                {
+                    result = result.Substring(1);
+                    value += dic["M"];
+                }
+                else if (result.StartsWith("CM"))
+                {
+                    result = result.Substring(2);
+                    value += dic["CM"];
+                }
+                else if (result.StartsWith("D"))
+                {
+                    result = result.Substring(1);
+                    value += dic["D"];
+                }
+                else if (result.StartsWith("CD"))
+                {
+                    result = result.Substring(2);
+                    value += dic["CD"];
+                }
+                else if (result.StartsWith("C"))
+                {
+                    result = result.Substring(1);
+                    value += dic["C"];
+                }
+                else if (result.StartsWith("XC"))
+                {
+                    result = result.Substring(2);
+                    value += dic["XC"];
+                }
+                else if (result.StartsWith("L"))
+                {
+                    result = result.Substring(1);
+                    value += dic["L"];
+                }
+                else if (result.StartsWith("XL"))
+                {
+                    result = result.Substring(2);
+                    value += dic["XL"];
+                }
+                else if (result.StartsWith("X"))
+                {
+                    result = result.Substring(1);
+                    value += dic["X"];
+                }
+                else if (result.StartsWith("IX"))
+                {
+                    result = result.Substring(2);
+                    value += dic["IX"];
+                }
+                else if (result.StartsWith("V"))
+                {
+                    result = result.Substring(1);
+                    value += dic["V"];
+                }
+                else if (result.StartsWith("IV"))
+                {
+                    result = result.Substring(2);
+                    value += dic["IV"];
+                }
+                else if (result.StartsWith("I"))
+                {
+                    result = result.Substring(1);
+                    value += dic["I"];
+                }
+            }
+            return value;
+        }
+
+        /// <summary>
+        /// LC_0014
+        /// </summary>
+        /// <param name="strs"></param>
+        /// <returns></returns>
+        public string LongestCommonPrefix(string[] strs)
+        {
+            if (strs == null || strs.Length == 0)
+                return "";
+            if (strs.Length == 1)
+                return strs[0];
+            var minLen = int.MaxValue;
+
+            foreach (var str in strs)
+            {
+                if (str.Length < minLen)
+                    minLen = str.Length;
+            }
+            if (minLen == 0)
+                return "";
+            var resultLen = 0;
+            for (int i = 0; i < minLen; i++)
+            {
+                if (strs.All(x => x[i] == strs[0][i]))
+                    resultLen++;
+                else
+                    break;
+            }
+
+            if (resultLen == 0)
+                return "";
+            else
+                return strs[0].Substring(0, resultLen);
+        }
+
+        /// <summary>
+        /// LC_0015
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<IList<int>> ThreeSum(int[] nums)
+        {
+            return null;
         }
     }
 }

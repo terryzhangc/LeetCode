@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using LeetCode.Structs;
+using System.Linq;
 
 namespace LeetCode.Tests
 {
@@ -108,6 +109,16 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0010_IsMatch_Test()
+        {
+            Assert.False(_s.IsMatch("aa", "a"));
+            Assert.True(_s.IsMatch("aa", "a*"));
+            Assert.True(_s.IsMatch("ab", "*."));
+            Assert.True(_s.IsMatch("aab", "c*a*b"));
+            Assert.False(_s.IsMatch("mississippi", "mis*is*p*."));
+        }
+
+        [Fact]
         public void LC_0011_MaxAreaTest()
         {
             Assert.Equal(49, _s.MaxArea(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 }));
@@ -124,6 +135,38 @@ namespace LeetCode.Tests
             Assert.Equal("LVIII", _s.IntToRoman(58));
             Assert.Equal("DXLIX", _s.IntToRoman(549));
             Assert.Equal("MMMCCX", _s.IntToRoman(3210));
+        }
+
+        [Fact]
+        public void LC_0013_RomanToInt_Test()
+        {
+            Assert.Equal(0, _s.RomanToInt(""));
+            Assert.Equal(3, _s.RomanToInt("III"));
+            Assert.Equal(4, _s.RomanToInt("IV"));
+            Assert.Equal(5, _s.RomanToInt("V"));
+            Assert.Equal(9, _s.RomanToInt("IX"));
+            Assert.Equal(58, _s.RomanToInt("LVIII"));
+            Assert.Equal(549, _s.RomanToInt("DXLIX"));
+            Assert.Equal(3210, _s.RomanToInt("MMMCCX"));
+            Assert.Equal(1994, _s.RomanToInt("MCMXCIV"));
+        }
+
+        [Fact]
+        public void LC_0014_LongestCommonPrefix_Test()
+        {
+            Assert.Equal("", _s.LongestCommonPrefix(new string[] { }));
+            Assert.Equal("fl", _s.LongestCommonPrefix(new string[] { "flower", "flow", "flight" }));
+            Assert.Equal("", _s.LongestCommonPrefix(new string[] { "dog", "racecar", "car" }));
+        }
+
+        [Fact]
+        public void LC_0015_ThreeSum_Test()
+        {
+            var result = _s.ThreeSum(new int[] { -1, 0, 1, 2, -1, -4 });
+            foreach (var list in result)
+            {
+                Assert.Equal(0, list.Sum());
+            }
         }
     }
 }
