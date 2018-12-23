@@ -120,11 +120,12 @@ namespace LeetCode.Tests
         [Fact]
         public void LC_0010_IsMatch_Test()
         {
-            Assert.False(_s.IsMatch("aa", "a"));
-            Assert.True(_s.IsMatch("aa", "a*"));
-            Assert.True(_s.IsMatch("ab", "*."));
-            Assert.True(_s.IsMatch("aab", "c*a*b"));
-            Assert.False(_s.IsMatch("mississippi", "mis*is*p*."));
+            //Assert.False(_s.IsMatch("aa", "a"));
+            //Assert.True(_s.IsMatch("aa", "a*"));
+            //Assert.True(_s.IsMatch("ab", "*."));
+            //Assert.True(_s.IsMatch("aab", "c*a*b"));
+            //Assert.False(_s.IsMatch("mississippi", "mis*is*p*."));
+            Assert.True(false);
         }
 
         [Fact]
@@ -184,6 +185,86 @@ namespace LeetCode.Tests
         {
             Assert.Equal(2, _s.ThreeSumClosest(new int[] { -1, 2, 1, -4 }, 1));
             Assert.Equal(0, _s.ThreeSumClosest(_bigArray, 0));
+        }
+
+        [Fact]
+        public void LC_0017_LetterCombinations_Test()
+        {
+            var list = _s.LetterCombinations("2");
+            Assert.True(list[0] == "a" && list[1] == "b" && list[2] == "c");
+            var list1 = _s.LetterCombinations("23");
+            var array1 = new string[] { "ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf" };
+            for (int i = 0; i < list1.Count; i++)
+            {
+                Assert.Equal(array1[i], list1[i]);
+            }
+        }
+        [Fact]
+        public void LC_0018_FourSum_Test()
+        {
+            var result1 = _s.FourSum(new int[] { 1, 0, -1, 0, -2, 2 }, 0);
+            var result2 = _s.FourSum(new int[] { -3, -1, 0, 2, 4, 5 }, 0);
+
+            foreach (var list in result1)
+            {
+                Assert.Equal(0, list.Sum());
+            }
+        }
+        [Fact]
+        public void LC_0019_RemoveNthFromEnd_Test()
+        {
+            var list = new ListNode(1);
+            list.next = new ListNode(2);
+            list.next.next = new ListNode(3);
+            list.next.next.next = new ListNode(4);
+            list.next.next.next.next = new ListNode(5);
+            var lResult1 = _s.RemoveNthFromEnd(list, 2);
+            Assert.Equal(1, lResult1.val);
+            Assert.Equal(2, lResult1.next.val);
+            Assert.Equal(3, lResult1.next.next.val);
+            Assert.Equal(5, lResult1.next.next.next.val);
+            Assert.Null(lResult1.next.next.next.next);
+
+            Assert.Null(_s.RemoveNthFromEnd(new ListNode(1), 1));
+
+            var list2 = new ListNode(1);
+            list2.next = new ListNode(2);
+            list2.next.next = new ListNode(3);
+            var lResult2 = _s.RemoveNthFromEnd(list2, 1);
+            Assert.Null(lResult2.next.next);
+            Assert.Equal(1, lResult2.val);
+            Assert.Equal(2, lResult2.next.val);
+
+
+        }
+        [Fact]
+        public void LC_0020_IsValid_Test()
+        {
+            Assert.True(_s.IsValid("()"));
+            Assert.True(_s.IsValid("()[]{}"));
+            Assert.True(_s.IsValid("{[]}"));
+            Assert.False(_s.IsValid("(]"));
+            Assert.False(_s.IsValid("([)]"));
+
+        }
+
+        [Fact]
+        public void LC_0021_MergeTwoLists_Test()
+        {
+            var l1 = new ListNode(1);
+            l1.next = new ListNode(3);
+            l1.next.next = new ListNode(5);
+            var l2 = new ListNode(2);
+            l2.next = new ListNode(4);
+            l2.next.next = new ListNode(6);
+            var lResult = _s.MergeTwoLists(l1, l2);
+            Assert.Equal(1, lResult.val);
+            Assert.Equal(2, lResult.next.val);
+            Assert.Equal(3, lResult.next.next.val);
+            Assert.Equal(4, lResult.next.next.next.val);
+            Assert.Equal(5, lResult.next.next.next.next.val);
+            Assert.Equal(6, lResult.next.next.next.next.next.val);
+            Assert.Null(lResult.next.next.next.next.next.next);
         }
     }
 }

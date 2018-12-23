@@ -432,7 +432,6 @@ namespace LeetCode
             return true;
         }
 
-
         /// <summary>
         /// LC_0011
         /// </summary>
@@ -792,6 +791,231 @@ namespace LeetCode
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// LC_0017
+        /// </summary>
+        /// <param name="digits"></param>
+        /// <returns></returns>
+        public IList<string> LetterCombinations(string digits)
+        {
+            var result = new List<string>();
+            if (string.IsNullOrEmpty(digits))
+                return result;
+            var map = new string[] {
+                " ",
+                "*","abc", "def",
+                "ghi","jkl","mno",
+                "pqrs","tuv","wxyz"
+            };
+
+            var temp = new char[digits.Length];
+
+            Search(ref result, ref map, ref digits, 0, ref temp);
+
+            return result;
+        }
+
+        private void Search(ref List<string> result, ref string[] map, ref string digits, int index, ref char[] temp)
+        {
+            if (index == digits.Length)
+            {
+                result.Add(new string(temp));
+                return;
+            }
+            var number = digits[index] - '0';
+            var chars = map[number];
+
+            foreach (var ch in chars)
+            {
+                temp[index] = ch;
+                index++;
+                Search(ref result, ref map, ref digits, index, ref temp);
+                index--;
+            }
+        }
+
+        /// <summary>
+        /// LC_0018
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public IList<IList<int>> FourSum(int[] nums, int target)
+        {
+            IList<IList<int>> result = new List<IList<int>>();
+            if (nums == null || nums.Length < 4)
+                return result;
+            var sortList = nums.OrderBy(x => x).ToList();
+            var hash = new HashSet<string>();
+            for (int i = 0; i < sortList.Count; i++)
+            {
+                for (int j = i + 1; j < sortList.Count;)
+                {
+                    if (j > sortList.Count - 2)
+                        break;
+                    var left = j + 1;
+                    var right = sortList.Count - 1;
+                    while (left < right)
+                    {
+                        var sum = sortList[i] + sortList[j] + sortList[left] + sortList[right] - target;
+                        if (sum == 0)
+                        {
+                            var hashStr = $"{sortList[i]}{sortList[j]}{sortList[left]}{sortList[right]}";
+                            if (!hash.Contains(hashStr))
+                            {
+                                result.Add(new List<int>() { sortList[i], sortList[j], sortList[left], sortList[right] });
+                                hash.Add(hashStr);
+                            }
+                            var lValue = sortList[left];
+                            do { left++; }
+                            while (left < right && lValue == sortList[left]);
+
+                            var rValue = sortList[right];
+                            do { right--; }
+                            while (left < right && rValue == sortList[right]);
+                        }
+                        else if (sum < 0)
+                        {
+                            var lValue = sortList[left];
+                            do { left++; }
+                            while (left < right && lValue == sortList[left]);
+                        }
+                        else
+                        {
+                            var rValue = sortList[right];
+                            do { right--; }
+                            while (left < right && rValue == sortList[right]);
+                        }
+                    }
+
+                    var jValue = sortList[j];
+                    do { j++; }
+                    while (j < sortList.Count && jValue == sortList[j]);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// LC_0019
+        /// </summary>
+        /// <param name="head"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public ListNode RemoveNthFromEnd(ListNode head, int n)
+        {
+            if (n <= 0)
+                return head;
+            if (head.next == null && n == 1)
+                return null;
+
+            var list = new List<ListNode>();
+            ListNode p = head;
+            while (p != null)
+            {
+                list.Add(p);
+                p = p.next;
+            }
+            var index = list.Count - n;
+            if (index == 0)
+                return list[1];
+            if (index == list.Count - 1)
+            {
+                list[index - 1].next = null;
+            }
+            else
+            {
+                list[index - 1].next = list[index + 1];
+            }
+            return head;
+        }
+
+        /// <summary>
+        /// LC_0020
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public bool IsValid(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return true;
+            var stack = new Stack<char>();
+            foreach (var ch in s)
+            {
+                if (stack.Count == 0)
+                {
+                    stack.Push(ch);
+                }
+                else
+                {
+                    if (ch == ')' && stack.Peek() == '(')
+                    {
+                        stack.Pop();
+                    }
+                    else if (ch == '}' && stack.Peek() == '{')
+                    {
+                        stack.Pop();
+                    }
+                    else if (ch == ']' && stack.Peek() == '[')
+                    {
+                        stack.Pop();
+                    }
+                    else
+                    {
+                        stack.Push(ch);
+                    }
+                }
+            }
+            return stack.Count == 0;
+        }
+
+        /// <summary>
+        /// LC_0021
+        /// </summary>
+        /// <param name="l1"></param>
+        /// <param name="l2"></param>
+        /// <returns></returns>
+        public ListNode MergeTwoLists(ListNode l1, ListNode l2)
+        {
+            if (l1 == null && l2 == null)
+                return null;
+            if (l1 == null && l2 != null)
+                return l2;
+            if (l1 != null && l2 == null)
+                return l1;
+            var head = new ListNode(0);
+            var temp = head;
+            var p1 = l1;
+            var p2 = l2;
+            while (true)
+            {
+                if(p1 == null)
+                {
+                    temp.next = p2;
+                    break;
+                }
+                if(p2 == null)
+                {
+                    temp.next = p1;
+                    break;
+                }
+
+                if (p1.val < p2.val)
+                {
+                    temp.next = p1;
+                    temp = temp.next;
+                    p1 = p1.next;
+                }
+                else
+                {
+                    temp.next = p2;
+                    temp = temp.next;
+                    p2 = p2.next;
+                }
+            }
+            return head.next;
         }
     }
 }
