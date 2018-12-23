@@ -698,7 +698,100 @@ namespace LeetCode
         /// <returns></returns>
         public IList<IList<int>> ThreeSum(int[] nums)
         {
-            return null;
+            var sortList = nums.OrderBy(x => x).ToList();
+            IList<IList<int>> result = new List<IList<int>>();
+            var hash = new HashSet<string>();
+            for (int i = 0; i < sortList.Count; i++)
+            {
+                var left = i + 1;
+                var right = sortList.Count - 1;
+                while (left < right)
+                {
+                    var sum = sortList[i] + sortList[left] + sortList[right];
+                    if (sum == 0)
+                    {
+                        var hashStr = $"{sortList[i]}{sortList[left]}{sortList[right]}";
+                        if (!hash.Contains(hashStr))
+                        {
+                            result.Add(new List<int>() { sortList[i], sortList[left], sortList[right] });
+                            hash.Add(hashStr);
+                        }
+                        var lValue = sortList[left];
+                        do { left++; }
+                        while (left < right && lValue == sortList[left]);
+
+                        var rValue = sortList[right];
+                        do { right--; }
+                        while (left < right && rValue == sortList[right]);
+                    }
+                    else if (sum < 0)
+                    {
+                        var lValue = sortList[left];
+                        do { left++; }
+                        while (left < right && lValue == sortList[left]);
+                    }
+                    else
+                    {
+                        var rValue = sortList[right];
+                        do { right--; }
+                        while (left < right && rValue == sortList[right]);
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// LC_0016
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public int ThreeSumClosest(int[] nums, int target)
+        {
+            if (nums.Length < 3)
+                return 0;
+            var sortList = nums.OrderBy(x => x).ToList();
+            var result = int.MaxValue;
+            var distance = int.MaxValue;
+            for (int i = 0; i < sortList.Count; i++)
+            {
+                var left = i + 1;
+                var right = sortList.Count - 1;
+                while (left < right)
+                {
+                    var sum = sortList[i] + sortList[left] + sortList[right];
+                    if (sum == target)
+                    {
+                        return target;
+                    }
+                    else if (sum < target)
+                    {
+                        var dist = target - sum;
+                        if (dist < distance)
+                        {
+                            distance = dist;
+                            result = sum;
+                        }
+                        var lValue = sortList[left];
+                        do { left++; }
+                        while (left < right && lValue == sortList[left]);
+                    }
+                    else
+                    {
+                        var dist = sum - target;
+                        if (dist < distance)
+                        {
+                            distance = dist;
+                            result = sum;
+                        }
+                        var rValue = sortList[right];
+                        do { right--; }
+                        while (left < right && rValue == sortList[right]);
+                    }
+                }
+            }
+            return result;
         }
     }
 }

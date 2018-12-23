@@ -10,11 +10,9 @@ namespace LeetCode.Tests
             _s = new Solution();
         }
         [Fact]
-        public void LC_0101_TwoSum_Test()
+        public void LC_0121_MaxProfit_Test()
         {
-            Assert.Collection(_s.TwoSum(new int[] { 2, 7, 11, 15 }, 9),
-                x => Assert.True(x == 0),
-                x => Assert.True(x == 1));
+            Assert.Equal(5, _s.MaxProfit(new int[] { 7, 1, 5, 3, 6, 4 }));
         }
     }
 }

@@ -6,6 +6,7 @@ namespace LeetCode
     {
         static void Main(string[] args)
         {
+            var _s = new Solution();
             var line = Console.ReadLine();
         }
     }
