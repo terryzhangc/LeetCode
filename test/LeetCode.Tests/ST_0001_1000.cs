@@ -32,16 +32,10 @@ namespace LeetCode.Tests
         [Fact]
         public void LC_0002_AddTwoNumbers_Test()
         {
-            var l1 = new ListNode(2);
-            l1.next = new ListNode(4);
-            l1.next.next = new ListNode(3);
-            var l2 = new ListNode(5);
-            l2.next = new ListNode(6);
-            l2.next.next = new ListNode(4);
+            var l1 = ListNode.GenerateList(new int[] { 2, 4, 3 });
+            var l2 = ListNode.GenerateList(new int[] { 5, 6, 4 });
             var lResult = _s.AddTwoNumbers(l1, l2);
-            Assert.Equal(7, lResult.val);
-            Assert.Equal(0, lResult.next.val);
-            Assert.Equal(8, lResult.next.next.val);
+            Assert.True(new int[] { 7, 0, 8 }.CompareArray(lResult.ToArray()));
         }
 
         [Fact]
@@ -214,29 +208,14 @@ namespace LeetCode.Tests
         [Fact]
         public void LC_0019_RemoveNthFromEnd_Test()
         {
-            var list = new ListNode(1);
-            list.next = new ListNode(2);
-            list.next.next = new ListNode(3);
-            list.next.next.next = new ListNode(4);
-            list.next.next.next.next = new ListNode(5);
+            var list = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
             var lResult1 = _s.RemoveNthFromEnd(list, 2);
-            Assert.Equal(1, lResult1.val);
-            Assert.Equal(2, lResult1.next.val);
-            Assert.Equal(3, lResult1.next.next.val);
-            Assert.Equal(5, lResult1.next.next.next.val);
-            Assert.Null(lResult1.next.next.next.next);
-
+            Assert.True(new int[] { 1, 2, 3, 5 }.CompareArray(lResult1.ToArray()));
             Assert.Null(_s.RemoveNthFromEnd(new ListNode(1), 1));
-
-            var list2 = new ListNode(1);
-            list2.next = new ListNode(2);
-            list2.next.next = new ListNode(3);
+            var list2 = ListNode.GenerateList(new int[] { 1, 2, 3 });
             var lResult2 = _s.RemoveNthFromEnd(list2, 1);
             Assert.Null(lResult2.next.next);
-            Assert.Equal(1, lResult2.val);
-            Assert.Equal(2, lResult2.next.val);
-
-
+            Assert.True(new int[] { 1, 2 }.CompareArray(lResult2.ToArray()));
         }
         [Fact]
         public void LC_0020_IsValid_Test()
@@ -252,20 +231,11 @@ namespace LeetCode.Tests
         [Fact]
         public void LC_0021_MergeTwoLists_Test()
         {
-            var l1 = new ListNode(1);
-            l1.next = new ListNode(3);
-            l1.next.next = new ListNode(5);
-            var l2 = new ListNode(2);
-            l2.next = new ListNode(4);
-            l2.next.next = new ListNode(6);
+            var l1 = ListNode.GenerateList(new int[] { 1, 3, 5 });
+            var l2 = ListNode.GenerateList(new int[] { 2, 4, 6 });
             var lResult = _s.MergeTwoLists(l1, l2);
-            Assert.Equal(1, lResult.val);
-            Assert.Equal(2, lResult.next.val);
-            Assert.Equal(3, lResult.next.next.val);
-            Assert.Equal(4, lResult.next.next.next.val);
-            Assert.Equal(5, lResult.next.next.next.next.val);
-            Assert.Equal(6, lResult.next.next.next.next.next.val);
-            Assert.Null(lResult.next.next.next.next.next.next);
+
+            Assert.True(new int[] { 1, 2, 3, 4, 5, 6 }.CompareArray(lResult.ToArray()));
         }
 
         [Fact]
@@ -286,6 +256,27 @@ namespace LeetCode.Tests
             {
                 Assert.Contains(str, expectList);
             }
+        }
+
+        [Fact]
+        public void LC_0023_MergeKLists_Test()
+        {
+            //[[1,4,5],[1,3,4],[2,6]]
+            var l1 = ListNode.GenerateList(new int[] { 1, 4, 5 });
+            var l2 = ListNode.GenerateList(new int[] { 1, 3, 4 });
+            var l3 = ListNode.GenerateList(new int[] { 2, 6 });
+            var nodes = new ListNode[] { l1, l2, l3 };
+            var lResult = _s.MergeKLists(nodes);
+            Assert.True(new int[] { 1, 1, 2, 3, 4, 4, 5, 6 }.CompareArray(lResult.ToArray()));
+        }
+
+        [Fact]
+        public void LC_0024_SwapPairs_Test()
+        {
+            var l1 = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
+
+            var lResult = _s.SwapPairs(l1);
+            Assert.True(new int[] { 2, 1, 4, 3, 5 }.CompareArray(lResult.ToArray()));
         }
     }
 }

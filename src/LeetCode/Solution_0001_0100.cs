@@ -991,12 +991,12 @@ namespace LeetCode
             var p2 = l2;
             while (true)
             {
-                if(p1 == null)
+                if (p1 == null)
                 {
                     temp.next = p2;
                     break;
                 }
-                if(p2 == null)
+                if (p2 == null)
                 {
                     temp.next = p1;
                     break;
@@ -1062,16 +1062,86 @@ namespace LeetCode
                     }
                 }
 
-                if(stack.Count == 0)
+                if (stack.Count == 0)
+
                 {
                     result.Add(new string(temp));
-                }else
+                }
+                else
                 {
                     stack.Clear();
                 }
             }
-        
+
             return result;
+        }
+
+        /// <summary>
+        /// LC_0023
+        /// </summary>
+        /// <param name="lists"></param>
+        /// <returns></returns>
+        public ListNode MergeKLists(ListNode[] lists)
+        {
+            if (lists == null || lists.Length == 0)
+                return null;
+            return MergeLists(lists, 0, lists.Length - 1);
+        }
+
+        private ListNode MergeLists(ListNode[] lists, int start, int end)
+        {
+            if(start == end)
+            {
+                return lists[start];
+            }
+            else
+            {
+                var middle = (start + end) / 2;
+                var left = MergeLists(lists, start, middle);
+                var right = MergeLists(lists, middle + 1, end);
+                return MergeTwoLists(left, right);
+            }
+        }
+
+        /// <summary>
+        /// LC_0024
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode SwapPairs(ListNode head)
+        {
+            if (head == null)
+                return null;
+            if (head.next == null)
+                return head;
+            ListNode prev = null;
+            ListNode prev1 = null;
+            ListNode newHead = null;
+            ListNode p = head;
+            int count = 1;
+            while (p != null)
+            {
+                if (count % 2 == 0)
+                {
+                    prev.next = p.next;
+                    p.next = prev;
+                    if (count == 2)
+                    {
+                        newHead = p;
+                    }
+                    else
+                    {
+                        prev1.next = p;
+                    }
+                    p = prev;
+                    prev1 = p;
+                }
+                count++;
+                prev = p;
+                p = p.next;
+            }
+
+            return newHead;
         }
     }
 }
