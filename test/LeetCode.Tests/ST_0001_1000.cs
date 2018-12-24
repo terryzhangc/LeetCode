@@ -2,6 +2,7 @@ using System;
 using Xunit;
 using LeetCode.Structs;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace LeetCode.Tests
 {
@@ -265,6 +266,26 @@ namespace LeetCode.Tests
             Assert.Equal(5, lResult.next.next.next.next.val);
             Assert.Equal(6, lResult.next.next.next.next.next.val);
             Assert.Null(lResult.next.next.next.next.next.next);
+        }
+
+        [Fact]
+        public void LC_0022_GenerateParenthesis_Test()
+        {
+
+            var expectList = new List<string>() {
+                "((((()))))", "(((()())))", "(((())()))", "(((()))())", "(((())))()", "((()(())))", "((()()()))", "((()())())",
+                "((()()))()", "((())(()))", "((())()())", "((())())()", "((()))(())", "((()))()()", "(()((())))", "(()(()()))",
+                "(()(())())", "(()(()))()", "(()()(()))", "(()()()())", "(()()())()", "(()())(())", "(()())()()", "(())((()))",
+                "(())(()())", "(())(())()", "(())()(())", "(())()()()", "()(((())))", "()((()()))", "()((())())", "()((()))()",
+                "()(()(()))", "()(()()())",
+                "()(()())()", "()(())(())", "()(())()()", "()()((()))", "()()(()())", "()()(())()", "()()()(())", "()()()()()"
+            };
+
+            var strs = _s.GenerateParenthesis(5);
+            foreach (var str in strs)
+            {
+                Assert.Contains(str, expectList);
+            }
         }
     }
 }

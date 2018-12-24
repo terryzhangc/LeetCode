@@ -1017,5 +1017,61 @@ namespace LeetCode
             }
             return head.next;
         }
+
+        /// <summary>
+        /// LC_0022
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public IList<string> GenerateParenthesis(int n)
+        {
+            var result = new List<string>();
+            var stack = new Stack<char>();
+            var chars = new char[2] { '(', ')' };
+            var temp = new char[2 * n];
+            var max = 1 << (2 * n);
+            for (int i = 0; i < max; i++)
+            {
+                var count = LookupTable[i >> 24]
+                    + LookupTable[(i & 0x00FF0000) >> 16]
+                    + LookupTable[(i & 0x0000FF00) >> 8]
+                    + LookupTable[i & 0x000000FF];
+                if (n != count)
+                    continue;
+                for (int index = 0; index < 2 * n; index++)
+                {
+                    if (stack.Count > n)
+                        break;
+                    var cIndex = (i & (1 << index)) == 0 ? 0 : 1;
+                    var ch = chars[cIndex];
+                    temp[index] = ch;
+                    if (stack.Count == 0)
+                    {
+                        stack.Push(ch);
+                    }
+                    else
+                    {
+                        if (ch == ')' && stack.Peek() == '(')
+                        {
+                            stack.Pop();
+                        }
+                        else
+                        {
+                            stack.Push(ch);
+                        }
+                    }
+                }
+
+                if(stack.Count == 0)
+                {
+                    result.Add(new string(temp));
+                }else
+                {
+                    stack.Clear();
+                }
+            }
+        
+            return result;
+        }
     }
 }
