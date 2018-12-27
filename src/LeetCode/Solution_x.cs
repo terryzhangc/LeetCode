@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LeetCode
 {
-    public partial class Solution
+    public class Solution_x : Solution 
     {
         public int MinPath(int[,] matrix)
         {
@@ -212,19 +212,6 @@ namespace LeetCode
                 });
             }
             return maxValue;
-        }
-
-        public double GetMedian(int[] array)
-        {
-            if (array.Length % 2 == 0)
-            {
-                double sum = array[array.Length / 2] + array[(array.Length / 2) - 1];
-                return sum / 2;
-            }
-            else
-            {
-                return array[array.Length / 2];
-            }
         }
     }
 }

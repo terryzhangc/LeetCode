@@ -4,9 +4,9 @@ using System.Text;
 
 namespace LeetCode
 {
-    public partial class Solution
+    public class Solution
     {
-        private readonly int[] LookupTable = new int[] {
+        protected readonly int[] LookupTable = new int[] {
             0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,
             1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,
             1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,
@@ -27,6 +27,18 @@ namespace LeetCode
         public Solution()
         {
 
+        }
+        public double GetMedian(int[] array)
+        {
+            if (array.Length % 2 == 0)
+            {
+                double sum = array[array.Length / 2] + array[(array.Length / 2) - 1];
+                return sum / 2;
+            }
+            else
+            {
+                return array[array.Length / 2];
+            }
         }
     }
 }

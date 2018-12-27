@@ -5,8 +5,13 @@ using System.Linq;
 
 namespace LeetCode
 {
-    public partial class Solution
+    public class Solution_0001_0100 : Solution
     {
+        public Solution_0001_0100() : base()
+        {
+
+        }
+
         /// <summary>
         /// LC_0001
         /// </summary>
@@ -1090,7 +1095,7 @@ namespace LeetCode
 
         private ListNode MergeLists(ListNode[] lists, int start, int end)
         {
-            if(start == end)
+            if (start == end)
             {
                 return lists[start];
             }
@@ -1142,6 +1147,235 @@ namespace LeetCode
             }
 
             return newHead;
+        }
+
+        /// <summary>
+        /// LC_0025
+        /// </summary>
+        /// <param name="head"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public ListNode ReverseKGroup(ListNode head, int k)
+        {
+            if (head == null)
+                return null;
+            if (k < 2)
+                return head;
+            var stack = new Stack<ListNode>();
+            ListNode p = head;
+            ListNode prev = null;
+            ListNode newHead = null;
+            do
+            {
+                stack.Push(p);
+                p = p.next;
+                if (stack.Count == k)
+                {
+                    while (stack.Count != 0)
+                    {
+                        var pop = stack.Pop();
+                        pop.next = null;
+                        if (newHead == null)
+                        {
+                            newHead = pop;
+                        }
+                        else
+                        {
+                            prev.next = pop;
+                        }
+                        prev = pop;
+                    }
+                }
+            }
+            while (p != null);
+
+            if (stack.Count != 0 && stack.Count < k)
+            {
+                if (newHead == null)
+                {
+                    newHead = stack.Last();
+                }
+                else
+                {
+                    prev.next = stack.Last();
+                }
+            }
+            return newHead;
+        }
+
+        /// <summary>
+        /// LC_0026
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int RemoveDuplicates1(int[] nums)
+        {
+            if (nums.Length < 2)
+                return nums.Length;
+            var len = nums.Length;
+            for (int i = 0, j = i + 1; i < len; i++, j = i + 1)
+            {
+
+                while (j < len && nums[i] == nums[j])
+                {
+                    j++;
+                }
+                if (1 == j - i)
+                    continue;
+                //merge array 
+                for (int k = j; k < len; k++)
+                {
+                    nums[k - (j - i - 1)] = nums[k];
+                }
+
+                //recalculate len
+                len -= (j - i - 1);
+            }
+
+            return len;
+        }
+
+        public int RemoveDuplicates(int[] nums)
+        {
+            if (nums.Length < 2)
+                return nums.Length;
+            var result = 1;
+            var curValue = nums[0];
+            for (int i = 1; i < nums.Length; i++)
+            {
+                if (curValue != nums[i])
+                {
+                    curValue = nums[i];
+                    nums[result] = nums[i];
+                    result++;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// LC_0027
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public int RemoveElement(int[] nums, int val)
+        {
+            if (nums == null || nums.Length == 0)
+                return 0;
+            var result = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (val != nums[i])
+                {
+                    nums[result] = nums[i];
+                    result++;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// LC_0028
+        /// </summary>
+        /// <param name="haystack"></param>
+        /// <param name="needle"></param>
+        /// <returns></returns>
+        public int StrStr(string haystack, string needle)
+        {
+            return haystack.IndexOf(needle);
+        }
+
+        /// <summary>
+        /// LC_0029
+        /// </summary>
+        /// <param name="dividend"></param>
+        /// <param name="divisor"></param>
+        /// <returns></returns>
+        public int Divide(int dividend, int divisor)
+        {
+            if (dividend == 0)
+                return 0;
+            if (divisor == 1)
+                return dividend;
+            if (divisor == -1 && dividend == int.MinValue)
+                return int.MaxValue;
+            if (divisor == -1)
+                return -dividend;
+
+            if (divisor == int.MinValue)
+                return dividend == int.MinValue ? 1 : 0;
+
+            var flag1 = dividend < 0;
+            var flag2 = divisor < 0;
+            var value = dividend == int.MinValue ? int.MaxValue : Math.Abs(dividend);
+            var div = Math.Abs(divisor);
+
+            var result = 0;
+            var i = 0;
+            //value=result * div + r
+            //value = result * div   //result = (2^l1+2^l2+……+2^ls)
+            //result = value -r - div * (2^l1+2^l2+……+2^ls)
+            while (value >= div)
+            {
+                if (value >= div << i)
+                {
+                    value -= div << i;
+                    result += 1 << i;
+                    i++;
+                }
+                else
+                {
+                    i--;
+                }
+            }
+
+            if (dividend == int.MinValue) // add miss 1 back
+            {
+                value += 1;
+                if(value >=div)
+                {
+                    result += 1;
+                }
+            }
+            return flag1 == flag2 ? result : -result;
+        }
+
+        /// <summary>
+        /// LC_0030
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        public IList<int> FindSubstring(string s, string[] words)
+        {
+            var charArray = s.ToArray();
+            var result = new List<int>();
+            if (words.Length > 1 && words.Any(x => x.Length != words[0].Length))
+            {
+                return result;
+            }
+            var len = words[0].Length;
+            var map = new int[s.Length];
+            var dic = new Dictionary<string, int>();
+            for (int i = 0; i < words.Length; i++)
+            {
+                dic.Add(words[i], i);
+            }
+
+            for (int l = 0; l < len; l++)
+            {
+                for (int i = l; i < s.Length; i += len)
+                {
+                    if (i + len < s.Length)
+                    {
+                        var str = new string(charArray, i, i + len);
+                       
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

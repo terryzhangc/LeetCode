@@ -8,11 +8,11 @@ namespace LeetCode.Tests
 {
     public class ST_0001_1000
     {
-        private Solution _s;
+        private Solution_0001_0100 _s;
         private int[] _bigArray;
         public ST_0001_1000()
         {
-            _s = new Solution();
+            _s = new Solution_0001_0100();
             _bigArray = new int[] { 82597, -9243, 62390, 83030, -97960, -26521, -61011, 83390,
             -38677, 12333, 75987, 46091, 83794, 19355, -71037, -6242, -28801, 324, 1202, -90885, -2989, -95597,
             -34333, 35528, 5680, 89093, -90606, 50360, -29393, -27012, 53313, 65213, 99818, -82405, -41661, -3333,
@@ -278,5 +278,85 @@ namespace LeetCode.Tests
             var lResult = _s.SwapPairs(l1);
             Assert.True(new int[] { 2, 1, 4, 3, 5 }.CompareArray(lResult.ToArray()));
         }
+
+        [Fact]
+        public void LC_0025_ReverseKGroup_Test()
+        {
+            var l1 = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
+            var l2 = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
+            var l3 = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
+            var lResult = _s.ReverseKGroup(l1, 2);
+            var lResult1 = _s.ReverseKGroup(l2, 3);
+            var lResult2 = _s.ReverseKGroup(l3, 6);
+            Assert.True(new int[] { 2, 1, 4, 3, 5 }.CompareArray(lResult.ToArray()));
+            Assert.True(new int[] { 3, 2, 1, 4, 5 }.CompareArray(lResult1.ToArray()));
+            Assert.True(new int[] { 1, 2, 3, 4, 5 }.CompareArray(lResult2.ToArray()));
+            Assert.True(new int[] { }.CompareArray(_s.ReverseKGroup(null, 3).ToArray()));
+        }
+
+        [Fact]
+        public void LC_0026_RemoveDuplicates_Test()
+        {
+            var array = new int[] { 1, 1, 2 };
+            var len = _s.RemoveDuplicates(array);
+            Assert.Equal(2, len);
+            Assert.True(array[0] == 1);
+            Assert.True(array[1] == 2);
+            var array1 = new int[] { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 };
+            var len1 = _s.RemoveDuplicates(array1);
+            Assert.Equal(5, len1);
+            Assert.True(array1[0] == 0);
+            Assert.True(array1[1] == 1);
+            Assert.True(array1[2] == 2);
+            Assert.True(array1[3] == 3);
+            Assert.True(array1[4] == 4);
+            var array2 = new int[] { 1, 1, 1, 1, 2, 3, 4, 4, 4 };
+            var len2 = _s.RemoveDuplicates(array2);
+        }
+
+        [Fact]
+        public void LC_0027_RemoveElement_Test()
+        {
+            var array = new int[] { 1, 1, 2 };
+            var len = _s.RemoveElement(array, 1);
+            Assert.Equal(1, len);
+            Assert.True(array[0] == 2);
+            var array1 = new int[] { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 };
+            var len1 = _s.RemoveElement(array1, 1);
+            Assert.Equal(7, len1);
+            Assert.True(array1[0] == 0);
+            Assert.True(array1[1] == 0);
+            Assert.True(array1[2] == 2);
+            Assert.True(array1[3] == 2);
+            Assert.True(array1[4] == 3);
+            Assert.True(array1[5] == 3);
+            Assert.True(array1[6] == 4);
+            var array2 = new int[] { 1, 1, 1, 1, 2, 3, 4, 4, 4 };
+            var len2 = _s.RemoveElement(array2, 4);
+            Assert.Equal(6, len2);
+        }
+
+        [Fact]
+        public void LC_0028_LC_0028_StrStr_Test()
+        {
+            Assert.Equal(2, _s.StrStr("hello", "ll"));
+            Assert.Equal(-1, _s.StrStr("aaaaa", "bba"));
+        }
+
+        [Fact]
+        public void LC_0029_Divide_Test()
+        {
+            Assert.Equal(0, -1 / int.MinValue);
+            Assert.Equal(-1, _s.Divide(-3, 2));
+            Assert.Equal(-1, _s.Divide(3, -2));
+            Assert.Equal(-2, _s.Divide(5, -2));
+            Assert.Equal(0, _s.Divide(0, 2));
+            Assert.Equal(1, _s.Divide(3, 2));
+            Assert.Equal(2, _s.Divide(4, 2));
+            Assert.Equal(int.MinValue, _s.Divide(int.MinValue, 1));
+            Assert.Equal(int.MaxValue, _s.Divide(int.MinValue, -1));
+            Assert.Equal(-1073741824, _s.Divide(-2147483648, 2));
+        }
     }
+
 }

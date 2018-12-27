@@ -4,8 +4,12 @@ using System.Text;
 
 namespace LeetCode
 {
-    public partial class Solution
+    public class Solution_0101_0200 : Solution
     {
+        public Solution_0101_0200() : base()
+        {
+
+        }
         /// <summary>
         /// LC_0121
         /// </summary>

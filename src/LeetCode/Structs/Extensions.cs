@@ -9,7 +9,7 @@ namespace LeetCode.Structs
         public static int[] ToArray(this ListNode head)
         {
             if (head == null)
-                return null;
+                return new int[] { };
             var list = new List<int>();
             var p = head;
             while (p != null)

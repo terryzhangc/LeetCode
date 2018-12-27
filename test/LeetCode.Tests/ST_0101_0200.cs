@@ -4,10 +4,10 @@ namespace LeetCode.Tests
 {
     public class ST_0101_0200
     {
-        private Solution _s;
+        private Solution_0101_0200 _s;
         public ST_0101_0200()
         {
-            _s = new Solution();
+            _s = new Solution_0101_0200();
         }
         [Fact]
         public void LC_0121_MaxProfit_Test()
