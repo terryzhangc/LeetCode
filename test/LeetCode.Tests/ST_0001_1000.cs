@@ -357,6 +357,26 @@ namespace LeetCode.Tests
             Assert.Equal(int.MaxValue, _s.Divide(int.MinValue, -1));
             Assert.Equal(-1073741824, _s.Divide(-2147483648, 2));
         }
+
+        [Fact]
+        public void LC_0030_FindSubstring_Test()
+        {
+            Assert.True(new int[] { 9, 0 }
+            .CompareSet(_s.FindSubstring("barfoothefoobarman", new string[] { "foo", "bar" }).ToArray()));
+            Assert.True(new int[] { }
+            .CompareSet(_s.FindSubstring("wordgoodstudentgoodword", new string[] { "word", "student" }).ToArray()));
+
+            Assert.True(new int[] { 0 }
+            .CompareSet(_s.FindSubstring("", new string[] { "", "" }).ToArray()));
+            Assert.True(new int[] { 0, 1, 2 }
+            .CompareSet(_s.FindSubstring("ab", new string[] { "", "", "", "" }).ToArray()));
+
+            Assert.True(new int[] { }
+            .CompareSet(_s.FindSubstring("wordgoodgoodgoodbestword", new string[] { "word", "good", "best", "word" }).ToArray()));
+
+            Assert.True(new int[] {8 }
+            .CompareSet(_s.FindSubstring("wordgoodgoodgoodbestword", new string[] { "word", "good", "best", "good" }).ToArray()));
+        }
     }
 
 }

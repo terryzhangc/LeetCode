@@ -41,5 +41,20 @@ namespace LeetCode.Structs
             }
             return true;
         }
+
+        public static bool CompareSet<T>(this T[] source, T[] dest)
+        {
+            if (source == null && dest == null)
+                return true;
+            if (source != null && dest == null)
+                return false;
+            if (source == null && dest != null)
+                return false;
+            if (source.Length != dest.Length)
+                return false;
+
+            HashSet<T> srcSet = new HashSet<T>(source);
+            return srcSet.SetEquals(dest);
+        }
     }
 }

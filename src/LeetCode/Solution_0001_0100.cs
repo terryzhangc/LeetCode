@@ -1333,7 +1333,7 @@ namespace LeetCode
             if (dividend == int.MinValue) // add miss 1 back
             {
                 value += 1;
-                if(value >=div)
+                if (value >= div)
                 {
                     result += 1;
                 }
@@ -1351,30 +1351,119 @@ namespace LeetCode
         {
             var charArray = s.ToArray();
             var result = new List<int>();
+
+            if (words == null || words.Length == 0)
+                return result;
+            if (s == null)
+                return result;
+
+            if (words.Length > 0 && words.All(x => x == ""))
+            {
+                if (s.Length == 0)
+                {
+                    result.Add(0);
+                    return result;
+                }
+                else
+                {
+                    for (int i = 0; i <= s.Length; i++)
+                    {
+                        result.Add(i);
+                    }
+                    return result;
+                }
+            }
+
             if (words.Length > 1 && words.Any(x => x.Length != words[0].Length))
             {
                 return result;
             }
             var len = words[0].Length;
             var map = new int[s.Length];
-            var dic = new Dictionary<string, int>();
+            for (int i = 0; i < map.Length; i++)
+            {
+                map[i] = -1;
+            }
+            var dic = new Dictionary<string, List<int>>();
+            var countDic = new Dictionary<int, int>();
+            var hashSet = new Dictionary<int, int>();
+            var wordsCount = words.Length;
+            var noRepeatingWordsCount = 0;
             for (int i = 0; i < words.Length; i++)
             {
-                dic.Add(words[i], i);
-            }
-
-            for (int l = 0; l < len; l++)
-            {
-                for (int i = l; i < s.Length; i += len)
+                if (dic.ContainsKey(words[i]))
                 {
-                    if (i + len < s.Length)
-                    {
-                        var str = new string(charArray, i, i + len);
-                       
-                    }
+                    dic[words[i]].Add(i);
+                }
+                else
+                {
+                    dic.Add(words[i], new List<int>() { i });
+                    noRepeatingWordsCount++;
                 }
             }
 
+            foreach (var pair in dic)
+            {
+                countDic.Add(pair.Value.First(), pair.Value.Count);
+            }
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (i + len <= s.Length)
+                {
+                    var str = new string(charArray, i, len);
+                    if (dic.ContainsKey(str))
+                    {
+                        map[i] = dic[str][0];
+                    }
+                    else
+                    {
+                        map[i] = -1;
+                    }
+
+                }
+                if (i >= words.Length * len - 1)
+                {
+                    for (int k = 0, index = i - len + 1; k < words.Length; k++, index -= len)
+                    {
+                        var value = map[index];
+                        if (value == -1)
+                        {
+                            hashSet.Clear();
+                            break;
+                        }
+                        if (!hashSet.ContainsKey(value))
+                        {
+                            hashSet.Add(value, 1);
+                            if (hashSet.Count == noRepeatingWordsCount
+                                && countDic.All(c => hashSet.ContainsKey(c.Key) && hashSet[c.Key] == c.Value))
+                            {
+                                result.Add(index);
+                                hashSet.Clear();
+                            }
+                        }
+                        else
+                        {
+                            if (hashSet[value] < countDic[value])
+                            {
+                                hashSet[value]++;
+                                if (hashSet.Count == noRepeatingWordsCount
+                                && countDic.All(c => hashSet.ContainsKey(c.Key) && hashSet[c.Key] == c.Value))
+                                {
+                                    result.Add(index);
+                                    hashSet.Clear();
+                                }
+                            }
+                            else
+                            {
+                                hashSet.Clear();
+                                break;
+                            }
+                        }
+                    }
+                    hashSet.Clear();
+                }
+            }
             return result;
         }
     }
