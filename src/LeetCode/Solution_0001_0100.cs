@@ -1466,5 +1466,51 @@ namespace LeetCode
             }
             return result;
         }
+
+        /// <summary>
+        /// LC_0031
+        /// </summary>
+        /// <param name="nums"></param>
+        public void NextPermutation(int[] nums)
+        {
+            if (nums == null || nums.Length <= 1)
+                return;
+
+            var index = nums.Length - 1;
+            while (index >= 1)
+            {
+                if (nums[index - 1] >= nums[index])
+                {
+                    index--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if(index == 0)
+            {
+                Reverse(ref nums, 0, nums.Length - 1);
+                return;
+            }
+
+            //find  [nums.Length - 1... index] first > [index - 1]
+
+            var findIndex = nums.Length - 1;
+            while (findIndex >= index)
+            {
+                if (nums[findIndex] > nums[index - 1])
+                    break;
+                findIndex--;
+            }
+
+            Swap(ref nums, index - 1, findIndex);
+
+            //move findIndex to Max=>Min order
+            ReOrder(ref nums, index, nums.Length - 1, findIndex);
+            //reverse
+            Reverse(ref nums, index, nums.Length - 1);
+        }
     }
 }

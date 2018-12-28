@@ -41,7 +41,7 @@ namespace LeetCode
             }
         }
 
-        protected void Swap(ref int[] array, int left, int right)
+        public void Swap(ref int[] array, int left, int right)
         {
             if (left >= array.Length || right >= array.Length)
                 throw new IndexOutOfRangeException($"{nameof(left) } or {nameof(left)} out of range.");
@@ -63,6 +63,115 @@ namespace LeetCode
                 Swap(ref array, i, start);
                 Permutation(ref array, start + 1, ref outPut);
                 Swap(ref array, i, start);
+            }
+        }
+
+        public void QuickSort(ref int[] arr, int left, int right)
+        {
+            int i = left, j = right;
+            int tmp;
+            int pivot = arr[(left + right) / 2];
+            /* partition */
+            while (i <= j)
+            {
+                while (arr[i] < pivot)
+                    i++;
+                while (arr[j] > pivot)
+                    j--;
+                if (i <= j)
+                {
+                    tmp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = tmp;
+                    i++;
+                    j--;
+                }
+            };
+            /* recursion */
+            if (left < j)
+                QuickSort(ref arr, left, j);
+            if (i < right)
+                QuickSort(ref arr, i, right);
+        }
+
+        public void Reverse(ref int[] array, int left, int right)
+        {
+            if (left >= array.Length || right >= array.Length)
+                throw new IndexOutOfRangeException($"{nameof(left) } or {nameof(left)} out of range.");
+            if (left == right)
+                return;
+            while (left < right)
+            {
+                Swap(ref array, left, right);
+                left++;
+                right--;
+            }
+        }
+
+        // array[0...n] in max=>min order, except index, Then Reorder this array.
+        public void ReOrder(ref int[] array, int left, int right, int index)
+        {
+            if (left >= array.Length || right >= array.Length)
+                throw new IndexOutOfRangeException($"{nameof(left) } or {nameof(left)} out of range.");
+            if (left == right)
+                return;
+            if (index > right || index < left)
+                throw new IndexOutOfRangeException($"index not in left...right range.");
+
+            var moveToLeft = false;
+            if (index == left)
+            {
+                moveToLeft = false;
+            }
+            else if (index == right)
+            {
+                moveToLeft = true;
+            }
+            else if (index > left && index < right)
+            {
+                if (array[index] <= array[index - 1] && array[index] >= array[index + 1])
+                {
+                    return;
+                }
+                else if (array[index] < array[index + 1])
+                {
+                    moveToLeft = false;
+                }
+                else
+                {
+                    moveToLeft = true;
+                }
+            }
+
+            if (moveToLeft)
+            {
+                while (index - 1 >= left)// move to left
+                {
+                    if (array[index] > array[index - 1])
+                    {
+                        Swap(ref array, index, index - 1);
+                        index--;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                while (index + 1 <= right)// move to right
+                {
+                    if (array[index] < array[index + 1])
+                    {
+                        Swap(ref array, index, index + 1);
+                        index++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
         }
     }

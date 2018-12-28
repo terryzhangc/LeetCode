@@ -374,8 +374,32 @@ namespace LeetCode.Tests
             Assert.True(new int[] { }
             .CompareSet(_s.FindSubstring("wordgoodgoodgoodbestword", new string[] { "word", "good", "best", "word" }).ToArray()));
 
-            Assert.True(new int[] {8 }
+            Assert.True(new int[] { 8 }
             .CompareSet(_s.FindSubstring("wordgoodgoodgoodbestword", new string[] { "word", "good", "best", "good" }).ToArray()));
+        }
+
+        [Fact]
+        public void LC_0031_NextPermutation_Test()
+        {
+            var input1 = new int[] { 1, 2, 3 };
+            _s.NextPermutation(input1);
+            Assert.True(new int[] { 1, 3, 2 }.CompareArray(input1));
+
+            var input2 = new int[] { 3, 2, 1 };
+            _s.NextPermutation(input2);
+            Assert.True(new int[] { 1, 2, 3 }.CompareArray(input2));
+
+            var input3 = new int[] { 1, 1, 5 };
+            _s.NextPermutation(input3);
+            Assert.True(new int[] { 1, 5, 1 }.CompareArray(input3));
+
+            var input4 = new int[] { 1, 2, 5, 4, 3 };
+            _s.NextPermutation(input4);
+            Assert.True(new int[] { 1, 3, 2, 4, 5 }.CompareArray(input4));
+
+            var input5 = new int[] { 1, 2, 4, 5, 3 };
+            _s.NextPermutation(input5);
+            Assert.True(new int[] { 1, 2, 5, 3, 4 }.CompareArray(input5));
         }
     }
 
