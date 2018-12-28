@@ -20,6 +20,15 @@ namespace LeetCode.Structs
             return list.ToArray();
         }
 
+        public static void WriteLine<T>(this IEnumerable<T> array)
+        {
+            foreach (var item in array)
+            {
+                Console.Write($"{item} ");
+            }
+            Console.Write("\n");
+        }
+
         public static bool CompareArray<T>(this T[] source, T[] dest)
         {
             if (source == null && dest == null)

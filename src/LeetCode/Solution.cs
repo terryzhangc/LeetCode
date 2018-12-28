@@ -40,5 +40,30 @@ namespace LeetCode
                 return array[array.Length / 2];
             }
         }
+
+        protected void Swap(ref int[] array, int left, int right)
+        {
+            if (left >= array.Length || right >= array.Length)
+                throw new IndexOutOfRangeException($"{nameof(left) } or {nameof(left)} out of range.");
+            if (left == right)
+                return;
+            var temp = array[left];
+            array[left] = array[right];
+            array[right] = temp;
+        }
+
+        public void Permutation(ref int[] array, int start, ref List<List<int>> outPut)
+        {
+            if (start == array.Length - 1)
+            {
+                outPut.Add(new List<int>(array));
+            }
+            for (int i = start; i < array.Length; i++)
+            {
+                Swap(ref array, i, start);
+                Permutation(ref array, start + 1, ref outPut);
+                Swap(ref array, i, start);
+            }
+        }
     }
 }
