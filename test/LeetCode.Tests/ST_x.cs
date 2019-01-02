@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
+using Xunit;
 using LeetCode.Structs;
 
-namespace LeetCode
+namespace LeetCode.Tests
 {
-    class Program
+    public class ST_x
     {
-        static void Main(string[] args)
+        private Solution_x _s;
+
+        public ST_x()
         {
+            _s = new Solution_x();
+        }
 
-            //var isEqual = new Tuple<int, int>(1, 2).Equals( new Tuple<int, int>(1, 2));
-
-            //var list = new HashSet<Tuple<int, int>>();
-            //list.Add(new Tuple<int, int>(1, 2));
-
-            //list.Remove(new Tuple<int, int>(1, 2));
-
-            var _s = new Solution();
-            var _x = new Solution_x();
+        [Fact]
+        public void ST_x_NumIslands_Test()
+        {
 
             var m1 = new char[,] {
                 { '1','1','1', },
@@ -55,10 +53,9 @@ namespace LeetCode
                 {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}
             };
 
-            var count = _x.NumIslands(m3);
-
-
-            var line = Console.ReadLine();
+            Assert.Equal(1, _s.NumIslands(m1));
+            Assert.Equal(5, _s.NumIslands(m2));
+            Assert.Equal(1, _s.NumIslands(m3));
         }
     }
 }

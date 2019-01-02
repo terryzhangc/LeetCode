@@ -213,5 +213,71 @@ namespace LeetCode
             }
             return maxValue;
         }
+
+        public int NumIslands(char[,] grid)
+        {
+            var y = grid.GetLength(0);
+            var x = grid.GetLength(1);
+            var map = new int[y, x];
+            var allPoints = new HashSet<Tuple<int, int>>();
+            for (int i = 0; i < grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < grid.GetLength(1); j++)
+                {
+                    if (grid[i, j] == '1')
+                    {
+                        allPoints.Add(new Tuple<int, int>(i, j));
+                    }
+                }
+            }
+            var count = 0;
+            while (allPoints.Count != 0)
+            {
+                var queue = new Queue<Tuple<int, int>>();
+                var first = allPoints.First();
+                queue.Enqueue(first);
+                map[first.Item1, first.Item2] = 1;
+                allPoints.Remove(first);
+                while (queue.Count != 0)
+                {
+                    var viewedPoint = queue.Dequeue();
+                    //[y,x]
+                    var up = new Tuple<int, int>(viewedPoint.Item1 - 1, viewedPoint.Item2);
+                    var right = new Tuple<int, int>(viewedPoint.Item1, viewedPoint.Item2 + 1);
+                    var down = new Tuple<int, int>(viewedPoint.Item1 + 1, viewedPoint.Item2);
+                    var left = new Tuple<int, int>(viewedPoint.Item1, viewedPoint.Item2 - 1);
+                    //up
+                    if (up.Item1 >= 0 && grid[up.Item1, up.Item2] == '1' && map[up.Item1, up.Item2] == 0)
+                    {
+                        map[up.Item1, up.Item2] = 1;
+                        allPoints.Remove(up);
+                        queue.Enqueue(up);
+                    }
+                    //right  
+                    if (right.Item2 < x && grid[right.Item1, right.Item2] == '1' && map[right.Item1, right.Item2] == 0)
+                    {
+                        map[right.Item1, right.Item2] = 1;
+                        allPoints.Remove(right);
+                        queue.Enqueue(right);
+                    }
+                    //down
+                    if (down.Item1 < y && grid[down.Item1, down.Item2] == '1' && map[down.Item1, down.Item2] == 0)
+                    {
+                        map[down.Item1, down.Item2] = 1;
+                        allPoints.Remove(down);
+                        queue.Enqueue(down);
+                    }
+                    //left
+                    if (left.Item2 >= 0 && grid[left.Item1, left.Item2] == '1' && map[left.Item1, left.Item2] == 0)
+                    {
+                        map[left.Item1, left.Item2] = 1;
+                        allPoints.Remove(left);
+                        queue.Enqueue(left);
+                    }
+                }
+                count++;
+            }
+            return count;
+        }
     }
 }

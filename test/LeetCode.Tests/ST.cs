@@ -53,5 +53,49 @@ namespace LeetCode.Tests
             _s.ReOrder(ref arr6, 0, 3, 2);
             Assert.True(new int[] { 4, 3, 2, 1 }.CompareArray(arr6));
         }
+
+        [Fact]
+        public void ST_MyCircularQueue_Test()
+        {
+            var _q = new MyCircularQueue(5);
+
+            _q.EnQueue(1);
+            _q.EnQueue(2);
+            _q.EnQueue(3);
+            _q.EnQueue(4);
+            _q.EnQueue(5);
+            Assert.False(_q.EnQueue(6));
+            Assert.Equal(1, _q.Front());
+            Assert.Equal(5, _q.Rear());
+            Assert.True(_q.IsFull());
+
+            Assert.True(_q.DeQueue());
+            Assert.True(_q.DeQueue());
+            Assert.True(_q.EnQueue(6));
+            Assert.True(_q.EnQueue(7));
+            Assert.True(_q.IsFull());
+            Assert.False(_q.EnQueue(8));
+            _q.DeQueue();
+            _q.DeQueue();
+            _q.DeQueue();
+            _q.DeQueue();
+            Assert.True(_q.Front() == 7 && _q.Rear() == 7);
+            _q.DeQueue();
+            Assert.True(_q.IsEmpty());
+
+
+            MyCircularQueue circularQueue = new MyCircularQueue(2);
+
+            circularQueue.EnQueue(8);
+            circularQueue.EnQueue(8);
+            var a = circularQueue.Front();
+            circularQueue.EnQueue(4);
+            circularQueue.DeQueue();
+
+            circularQueue.EnQueue(1);
+            circularQueue.EnQueue(1);
+            circularQueue.DeQueue();
+            Assert.True(circularQueue.Front() == 1 && circularQueue.Rear() == 1);
+        }
     }
 }

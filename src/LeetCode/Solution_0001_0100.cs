@@ -1512,5 +1512,69 @@ namespace LeetCode
             //reverse
             Reverse(ref nums, index, nums.Length - 1);
         }
+
+        /// <summary>
+        /// LC_0032
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public int LongestValidParentheses(string s)
+        {
+            if (string.IsNullOrEmpty(s) || s.Length < 2)
+                return 0;
+            var max = 0;
+            var dp = new int[s.Length];
+            Stack<Tuple<char, int>> stack = new Stack<Tuple<char, int>>();
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                var ch = s[i];
+                if (stack.Count != 0 && stack.Peek().Item1 == '(' && ch == ')')
+                {
+                    var pop = stack.Pop();
+                    var leftIndex = pop.Item2;
+                    if (i - leftIndex == 1)//...()
+                    {
+                        if (leftIndex - 1 >= 0 && dp[leftIndex-1] != 0)
+                        {
+                            dp[i] = dp[leftIndex - 1] + 2;
+                        }
+                        else
+                        {
+                            dp[i] = 2;
+                        }
+                    }
+                    else// > 1 (...)
+                    {
+                        if (i - 1 >= 0 && dp[i - 1] != 0)//left ... right
+                        {
+                            dp[i] = dp[i - 1] + 2;
+                        }
+                        if (leftIndex - 1 >= 0 && dp[leftIndex - 1] != 0)
+                        {
+                            dp[i] = dp[i] + dp[leftIndex - 1];
+                        }
+                    }
+                    if (dp[i] > max)
+                        max = dp[i];
+                }
+                else
+                {
+                    stack.Push(new Tuple<char, int>(ch, i));
+                }
+            }
+            return max;
+        }
+
+        /// <summary>
+        /// LC_0033
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public int Search(int[] nums, int target)
+        {
+            return 0;
+        }
     }
 }

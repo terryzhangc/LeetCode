@@ -401,6 +401,15 @@ namespace LeetCode.Tests
             _s.NextPermutation(input5);
             Assert.True(new int[] { 1, 2, 5, 3, 4 }.CompareArray(input5));
         }
+
+        [Fact]
+        public void LC_0032_LongestValidParentheses_Test()
+        {
+            Assert.Equal(2, _s.LongestValidParentheses("(()"));
+            Assert.Equal(4, _s.LongestValidParentheses(")()())"));
+            Assert.Equal(8, _s.LongestValidParentheses(")()())()())(((())))))))"));
+            Assert.Equal(6, _s.LongestValidParentheses("()(())"));
+        }
     }
 
 }
