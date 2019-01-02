@@ -410,6 +410,54 @@ namespace LeetCode.Tests
             Assert.Equal(8, _s.LongestValidParentheses(")()())()())(((())))))))"));
             Assert.Equal(6, _s.LongestValidParentheses("()(())"));
         }
+
+        [Fact]
+        public void LC_0033_Search_Test()
+        {
+            Assert.Equal(4, _s.Search(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 0));
+            Assert.Equal(5, _s.Search(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 1));
+            Assert.Equal(6, _s.Search(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 2));
+            Assert.Equal(-1, _s.Search(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 3));
+            Assert.Equal(0, _s.Search(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 4));
+            Assert.Equal(1, _s.Search(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 5));
+            Assert.Equal(2, _s.Search(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 6));
+            Assert.Equal(3, _s.Search(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 7));
+
+            Assert.Equal(6, _s.Search(new int[] { 1, 2, 4, 5, 6, 7, 0 }, 0));
+            Assert.Equal(0, _s.Search(new int[] { 1, 2, 4, 5, 6, 7, 0 }, 1));
+            Assert.Equal(1, _s.Search(new int[] { 1, 2, 4, 5, 6, 7, 0 }, 2));
+            Assert.Equal(-1, _s.Search(new int[] { 1, 2, 4, 5, 6, 7, 0 }, 3));
+            Assert.Equal(2, _s.Search(new int[] { 1, 2, 4, 5, 6, 7, 0 }, 4));
+            Assert.Equal(3, _s.Search(new int[] { 1, 2, 4, 5, 6, 7, 0 }, 5));
+            Assert.Equal(4, _s.Search(new int[] { 1, 2, 4, 5, 6, 7, 0 }, 6));
+            Assert.Equal(5, _s.Search(new int[] { 1, 2, 4, 5, 6, 7, 0 }, 7));
+        }
+
+        [Fact]
+        public void LC_0034_SearchRange_Test()
+        {
+            var input = new int[] { 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13 };
+            Assert.True(new int[] { -1, -1 }.CompareArray(_s.SearchRange(input, 0)));
+            Assert.True(new int[] { 2, 4 }.CompareArray(_s.SearchRange(input, 3)));
+            Assert.True(new int[] { 10, 11 }.CompareArray(_s.SearchRange(input, 9)));
+            Assert.True(new int[] { 0, 0 }.CompareArray(_s.SearchRange(new int[] { 9 }, 9)));
+            Assert.True(new int[] { -1, -1 }.CompareArray(_s.SearchRange(new int[] { }, 9)));
+            Assert.True(new int[] { 0, 6 }.CompareArray(_s.SearchRange(new int[] { 9, 9, 9, 9, 9, 9, 9 }, 9)));
+        }
+
+        [Fact]
+        public void LC_0035_SearchInsert_Test()
+        {
+            Assert.Equal(5, _s.SearchInsert(new int[] { 1, 3, 5, 7, 8, 9 }, 9));
+            Assert.Equal(1, _s.SearchInsert(new int[] { 1, 3, 5, 7, 8, 9 }, 3));
+            Assert.Equal(1, _s.SearchInsert(new int[] { 1, 3, 5, 7, 8, 9 }, 2));
+            Assert.Equal(6, _s.SearchInsert(new int[] { 1, 3, 5, 7, 8, 9 }, 10));
+            Assert.Equal(0, _s.SearchInsert(new int[] { 1, 3, 5, 7, 8, 9 }, 0));
+            Assert.Equal(2, _s.SearchInsert(new int[] { 1, 3, 5, 7, 8, 9 }, 4));
+            Assert.Equal(0, _s.SearchInsert(new int[] { 9 }, 9));
+            Assert.Equal(0, _s.SearchInsert(new int[] { 10 }, 9));
+            Assert.Equal(3, _s.SearchInsert(new int[] { 3, 5, 7, 9, 10 }, 8));
+        }
     }
 
 }

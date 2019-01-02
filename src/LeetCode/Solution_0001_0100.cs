@@ -1489,7 +1489,7 @@ namespace LeetCode
                 }
             }
 
-            if(index == 0)
+            if (index == 0)
             {
                 Reverse(ref nums, 0, nums.Length - 1);
                 return;
@@ -1535,7 +1535,7 @@ namespace LeetCode
                     var leftIndex = pop.Item2;
                     if (i - leftIndex == 1)//...()
                     {
-                        if (leftIndex - 1 >= 0 && dp[leftIndex-1] != 0)
+                        if (leftIndex - 1 >= 0 && dp[leftIndex - 1] != 0)
                         {
                             dp[i] = dp[leftIndex - 1] + 2;
                         }
@@ -1574,7 +1574,113 @@ namespace LeetCode
         /// <returns></returns>
         public int Search(int[] nums, int target)
         {
-            return 0;
+            if (nums == null || nums.Length == 0)
+                return -1;
+            return Search(ref nums, 0, nums.Length - 1, target);
+        }
+
+        private int Search(ref int[] nums, int left, int right, int target)
+        {
+            if (left == right)
+            {
+                if (nums[left] == target)
+                    return left;
+                else
+                    return -1;
+            }
+
+            var middle = (left + right) / 2;
+            if (nums[left] < nums[middle])//left up continue
+            {
+                if (nums[left] <= target && target <= nums[middle])
+                {
+                    return Search(ref nums, left, middle, target);
+                }
+                else
+                {
+                    return Search(ref nums, middle + 1, right, target);
+                }
+            }
+            else
+            {
+                if (nums[middle + 1] <= target && target <= nums[right])
+                {
+                    return Search(ref nums, middle + 1, right, target);
+                }
+                else
+                {
+                    return Search(ref nums, left, middle, target);
+                }
+            }
+        }
+
+        /// <summary>
+        /// LC_0034
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public int[] SearchRange(int[] nums, int target)
+        {
+            var result = new int[] { -1, -1 };
+            if (nums == null || nums.Length == 0)
+                return result;
+            RangeSearch(ref nums, 0, nums.Length - 1, target, ref result);
+            return result;
+        }
+
+        private void RangeSearch(ref int[] nums, int left, int right, int target, ref int[] result)
+        {
+            if (left == right)
+            {
+                if (nums[left] == target)
+                {
+                    if (result[0] == -1 || left < result[0])
+                        result[0] = left;
+                    if (result[1] == -1 || left > result[1])
+                        result[1] = left;
+                }
+                return;
+            }
+            var middle = (left + right) / 2;
+            if (nums[left] <= target && target <= nums[middle])
+            {
+                RangeSearch(ref nums, left, middle, target, ref result);
+            }
+            if (nums[middle + 1] <= target && target <= nums[right])
+            {
+                RangeSearch(ref nums, middle + 1, right, target, ref result);
+            }
+        }
+
+        /// <summary>
+        /// LC_0035
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public int SearchInsert(int[] nums, int target)
+        {
+            if (nums == null || nums.Length == 0)
+                return 0;
+            var left = 0;
+            var right = nums.Length;
+            while (left < right)
+            {
+                var mid = (left + right) / 2;
+                if (target < nums[mid])
+                {
+                    right = mid;
+                }else if(target > nums[mid])
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    return mid;
+                }
+            }
+            return left;
         }
     }
 }
