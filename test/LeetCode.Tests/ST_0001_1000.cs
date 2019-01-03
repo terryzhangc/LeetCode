@@ -516,6 +516,31 @@ namespace LeetCode.Tests
             _s.SolveSudoku(m);
             Assert.True(_s.IsValidSudoku(m));
         }
+
+        [Fact]
+        public void LC_0038_CountAndSay_Test()
+        {
+            Assert.Equal("1", _s.CountAndSay(1));
+            Assert.Equal("1113213211", _s.CountAndSay(8));
+            Assert.Equal("31131211131221", _s.CountAndSay(9));
+            Assert.Equal("11131221131211132221232112111312111213111213211231132132211211131221131211221321123113213221123113112221131112311332211211131221131211132211121312211231131112311211232221121321132132211331121321231231121113112221121321133112132112312321123113112221121113122113121113123112112322111213211322211312113211", _s.CountAndSay(20));
+        }
+
+        [Fact]
+        public void LC_0039_CombinationSum_Test()
+        {
+            var list1 = _s.CombinationSum(new int[] { 2, 3, 6, 7 }, 7);
+            var list2 = _s.CombinationSum(new int[] { 2, 3, 5 }, 8);
+        }
+
+        [Fact]
+        public void LC_0040_CombinationSum2_Test()
+        {
+            var list1 = _s.CombinationSum2(new int[] { 2, 3, 6, 7 }, 7);
+            var list2 = _s.CombinationSum2(new int[] { 2, 3, 5 }, 8);
+            var list3 = _s.CombinationSum2(new int[] { 10, 1, 2, 7, 6, 1, 5 }, 8);
+            var list4 = _s.CombinationSum2(new int[] { 2, 5, 2, 1, 2 }, 5);
+        }
     }
 
 }

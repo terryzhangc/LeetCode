@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace LeetCode
 {
@@ -1814,15 +1815,127 @@ namespace LeetCode
         /// <returns></returns>
         public string CountAndSay(int n)
         {
-            var list = new string[n];
-            for (int i = 0; i < n; i++)
+            var list = new string[31];
+            list[0] = "";
+            list[1] = "1";
+            list[2] = "11";
+            list[3] = "21";
+            list[4] = "1211";
+            list[5] = "111221";
+            //"312211"
+            //"13112221"
+            //"1113213211"
+            //"31131211131221"
+            if (n <= 5)
             {
-                if (i == 0)
+                return list[n];
+            }
+
+            var index = 6;
+
+            while (index <= n)
+            {
+                var pre = list[index - 1];
+                var sb = new StringBuilder();
+                char symbol = pre[0];
+                int count = 1;
+                for (int i = 1; i < pre.Length; i++)
                 {
-                    list[i] = "1";
+                    if (pre[i] != symbol)
+                    {
+                        sb.Append(count);
+                        sb.Append(symbol);
+                        symbol = pre[i];
+                        count = 1;
+                    }
+                    else
+                    {
+                        count++;
+                    }
+                    if (i==pre.Length -1)
+                    {
+                        sb.Append(count);
+                        sb.Append(symbol);
+                    }
+                }
+                list[index] = sb.ToString();
+                index++;
+            }
+            return list[n];
+        }
+
+        /// <summary>
+        /// LC_0039
+        /// </summary>
+        /// <param name="candidates"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public IList<IList<int>> CombinationSum(int[] candidates, int target)
+        {
+            var result = new List<IList<int>>();
+            var tempList = new List<int>();
+            CombinationSumDFS(ref result, ref candidates, target, 0, ref tempList);
+            return result;
+        }
+
+        private void CombinationSumDFS(ref List<IList<int>> result, ref int[] candidates, int target, int index, ref List<int> temp)
+        {
+            if (target < 0)
+                return;
+            if (target == 0)
+                result.Add(temp.Select(x => x).ToList());
+            for (int i = index; i < candidates.Length; i++)
+            {
+                if (candidates[i] <= target)
+                {
+                    temp.Add(candidates[i]);
+                    CombinationSumDFS(ref result, ref candidates, target - candidates[i], i, ref temp);
+                    temp.RemoveAt(temp.Count - 1);
                 }
             }
-            return "";
+        }
+
+        /// <summary>
+        /// LC_0040
+        /// </summary>
+        /// <param name="candidates"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public IList<IList<int>> CombinationSum2(int[] candidates, int target)
+        {
+            var result = new List<IList<int>>();
+            var keys = new HashSet<string>();
+            var tempList = new List<int>();
+            var temp = candidates.ToList();
+            temp.Sort();
+            var newCandidates = temp.ToArray();
+            CombinationSum2DFS(ref result,ref keys, ref newCandidates, target, 0, ref tempList);
+            return result;
+        }
+
+        private void CombinationSum2DFS(ref List<IList<int>> result, ref HashSet<string> keys, ref int[] candidates, int target, int index, ref List<int> temp)
+        {
+            if (target < 0)
+                return;
+            if (target == 0)
+            {
+                var key = string.Join("", temp);
+                if (!keys.Contains(key))
+                {
+                    result.Add(temp.Select(x => x).ToList());
+                    keys.Add(key);
+                }
+                return;
+            }
+            for (int i = index; i < candidates.Length; i++)
+            {
+                if (candidates[i] <= target)
+                {
+                    temp.Add(candidates[i]);
+                    CombinationSum2DFS(ref result, ref keys, ref candidates, target - candidates[i], i + 1, ref temp);
+                    temp.RemoveAt(temp.Count - 1);
+                }
+            }
         }
     }
 }
