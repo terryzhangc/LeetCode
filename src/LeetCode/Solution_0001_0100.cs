@@ -1682,5 +1682,129 @@ namespace LeetCode
             }
             return left;
         }
+
+        /// <summary>
+        /// LC_0036
+        /// </summary>
+        /// <param name="board"></param>
+        /// <returns></returns>
+        public bool IsValidSudoku(char[,] board)
+        {
+            var matrix = new HashSet<char>[3, 3];
+            var iArray = new HashSet<char>[9];
+            var jArray = new HashSet<char>[9];
+            for (int i = 0; i < 9; i++)
+            {
+                iArray[i] = new HashSet<char>();
+                jArray[i] = new HashSet<char>();
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    matrix[i, j] = new HashSet<char>();
+                }
+            }
+            for (int i = 0; i < board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    var ch = board[i, j];
+                    if (ch != '.')
+                    {
+                        //i
+                        if (iArray[i].Contains(ch))
+                            return false;
+                        else
+                            iArray[i].Add(ch);
+                        //j
+                        if (jArray[j].Contains(ch))
+                            return false;
+                        else
+                            jArray[j].Add(ch);
+                        //area
+                        if (matrix[i / 3, j / 3].Contains(ch))
+                            return false;
+                        else
+                            matrix[i / 3, j / 3].Add(ch);
+                    }
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// LC_0037
+        /// </summary>
+        /// <param name="board"></param>
+        public void SolveSudoku(char[,] board)
+        {
+            var list = new List<Tuple<int, int>>();
+            for (int i = 0; i < board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    var ch = board[i, j];
+                    if (ch == '.')
+                    {
+                        list.Add(new Tuple<int, int>(i, j));
+                    }
+                }
+            }
+            var result = BFSSolveSudoku(ref board, ref list, 0);
+        }
+
+        private bool BFSSolveSudoku(ref char[,] board, ref List<Tuple<int, int>> list, int index)
+        {
+            if (index == list.Count)
+                return true;
+            var location = list[index];
+            var set = new HashSet<char>() { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+            for (int i = 0; i < 9; i++)
+            {
+                var chI = board[location.Item1, i];
+                var chJ = board[i, location.Item2];
+                if (chI != '.' && set.Contains(chI))
+                {
+                    set.Remove(chI);
+                }
+                if (chJ != '.' && set.Contains(chJ))
+                {
+                    set.Remove(chJ);
+                }
+            }
+            var baseI = location.Item1 / 3;
+            var baseJ = location.Item2 / 3;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    var ch = board[3 * baseI + i, 3 * baseJ + j];
+                    if (ch != '.' && set.Contains(ch))
+                    {
+                        set.Remove(ch);
+                    }
+                }
+            }
+
+             if (set.Count == 0)
+                return false;
+
+            foreach (var item in set)
+            {
+                board[location.Item1, location.Item2] = item;
+                var result = BFSSolveSudoku(ref board, ref list, index + 1);
+                if (result)
+                {
+                    return true;
+                }
+                else
+                {
+                    board[location.Item1, location.Item2] = '.';
+                }
+            }
+            return false;
+        }
     }
 }
