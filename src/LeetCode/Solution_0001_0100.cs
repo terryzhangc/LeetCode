@@ -1806,5 +1806,23 @@ namespace LeetCode
             }
             return false;
         }
+
+        /// <summary>
+        /// LC_0038
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public string CountAndSay(int n)
+        {
+            var list = new string[n];
+            for (int i = 0; i < n; i++)
+            {
+                if (i == 0)
+                {
+                    list[i] = "1";
+                }
+            }
+            return "";
+        }
     }
 }
