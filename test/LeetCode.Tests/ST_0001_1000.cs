@@ -541,6 +541,28 @@ namespace LeetCode.Tests
             var list3 = _s.CombinationSum2(new int[] { 10, 1, 2, 7, 6, 1, 5 }, 8);
             var list4 = _s.CombinationSum2(new int[] { 2, 5, 2, 1, 2 }, 5);
         }
+
+        [Fact]
+        public void LC_0041_FirstMissingPositive_Test()
+        {
+            Assert.Equal(3, _s.FirstMissingPositive(new int[] { 1, 2, 0 }));
+            Assert.Equal(2, _s.FirstMissingPositive(new int[] { 3, 4, -1, 1 }));
+            Assert.Equal(1, _s.FirstMissingPositive(new int[] { 7, 8, 9, 11, 12 }));
+            Assert.Equal(1, _s.FirstMissingPositive(new int[] { 3, 8, 9, 11, 12 }));
+        }
+
+        [Fact]
+        public void LC_0043_Trap_Test()
+        {
+            Assert.Equal(6, _s.Trap(new int[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 }));
+            Assert.Equal(0, _s.Trap(new int[] { 0 }));
+            Assert.Equal(0, _s.Trap(new int[] { 1, 2 }));
+            Assert.Equal(0, _s.Trap(new int[] { 1, 1, 1 }));
+            Assert.Equal(1, _s.Trap(new int[] { 1, 0, 1 }));
+            Assert.Equal(0, _s.Trap(new int[] { 0, 0, 0 }));
+            Assert.Equal(0, _s.Trap(new int[] { 0, 1, 0 }));
+            Assert.Equal(3, _s.Trap(new int[] { 99, 0, 0, 1, 0, 1 }));
+        }
     }
 
 }

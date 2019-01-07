@@ -1937,5 +1937,79 @@ namespace LeetCode
                 }
             }
         }
+
+        /// <summary>
+        /// LC_0041
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int FirstMissingPositive(int[] nums)
+        {
+            var hash = new HashSet<int>(nums);
+            int min = int.MaxValue;
+            if (!hash.Contains(1))
+                min = 1;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if(nums[i] > 0)
+                {
+                    var left = nums[i] - 1;
+                    var right = nums[i] + 1;
+                    if (left > 0 && !hash.Contains(left) && left < min)
+                    {
+                        min = left;
+                    }
+
+                    if (right > 0 && !hash.Contains(right) && right < min)
+                    {
+                        min = right;
+                    }
+                }
+            }
+            return min;
+        }
+
+        /// <summary>
+        /// LC_0042
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public int Trap(int[] height)
+        {
+            var sum = 0;
+            if (height ==null || height.Length <= 2)
+                return 0;
+
+            var leftArray = new int[height.Length];
+            var rightArray = new int[height.Length];
+            for (int i = 0; i <= height.Length - 1; i++)
+            {
+                var left = i;
+                var right = height.Length - 1 - i;
+                if (i == 0)
+                {
+                    leftArray[left] = height[left];
+                    rightArray[right] = height[right];
+                }
+                else
+                {
+                    if (leftArray[left - 1] > height[left])
+                        leftArray[left] = leftArray[left - 1];
+                    else
+                        leftArray[left] = height[left];
+                    
+                    if (rightArray[right + 1] > height[right])
+                        rightArray[right] = rightArray[right + 1];
+                    else
+                        rightArray[right] = height[right];
+                }
+            }
+
+            for (int i = 1; i < height.Length - 1; i++)
+            {
+                sum += (Math.Min(leftArray[i], rightArray[i]) - height[i]);
+            }
+            return sum;
+        }
     }
 }
