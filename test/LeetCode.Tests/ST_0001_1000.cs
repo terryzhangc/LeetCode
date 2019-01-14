@@ -552,7 +552,7 @@ namespace LeetCode.Tests
         }
 
         [Fact]
-        public void LC_0043_Trap_Test()
+        public void LC_0042_Trap_Test()
         {
             Assert.Equal(6, _s.Trap(new int[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 }));
             Assert.Equal(0, _s.Trap(new int[] { 0 }));
@@ -562,6 +562,29 @@ namespace LeetCode.Tests
             Assert.Equal(0, _s.Trap(new int[] { 0, 0, 0 }));
             Assert.Equal(0, _s.Trap(new int[] { 0, 1, 0 }));
             Assert.Equal(3, _s.Trap(new int[] { 99, 0, 0, 1, 0, 1 }));
+        }
+
+        [Fact]
+        public void LC_0043_Multiply()
+        {
+            Assert.Equal("120", _s.Add("111", "9"));
+            Assert.Equal("10", _s.Add("1", "9"));
+            Assert.Equal("4", _s.Add("2", "2"));
+            Assert.Equal("11110", _s.Add("1111", "9999"));
+            Assert.Equal("1000", _s.Add("877", "123"));
+            Assert.Equal("123", _s.Add("0", "123"));
+            Assert.Equal("877", _s.Add("877", "0"));
+            Assert.Equal("0", _s.Add("0", "0"));
+
+            Assert.Equal("0", _s.Multiply("123", 0));
+            Assert.Equal("123", _s.Multiply("123", 1));
+            Assert.Equal("615", _s.Multiply("123", 5));
+            Assert.Equal("8073", _s.Multiply("897", 9));
+
+            Assert.Equal("1353", _s.Multiply("123", "11"));
+            Assert.Equal("0", _s.Multiply("0", "111"));
+            Assert.Equal("0", _s.Multiply("111", "0"));
+            Assert.Equal("21733139600", _s.Multiply("856985", "25360"));
         }
     }
 

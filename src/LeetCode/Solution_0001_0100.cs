@@ -2011,5 +2011,107 @@ namespace LeetCode
             }
             return sum;
         }
+
+        /// <summary>
+        /// LC_0043
+        /// </summary>
+        /// <param name="num1"></param>
+        /// <param name="num2"></param>
+        /// <returns></returns>
+        public string Multiply(string num1, string num2)
+        {
+            if (num1 == "0" || num2 == "0")
+                return "0";
+            var result = "0";
+            var dic = new Dictionary<int,string>();
+            // = 10^(n-i) * a[i]  + ... 10^0 * a[n]
+            for (int i = 0; i < num2.Length; i++)
+            {
+                var moveLeftLen = num2.Length - 1 - i;
+                var number = num2[i] - '0';
+                var cacheStr = "";
+                if (dic.ContainsKey(number))
+                {
+                    cacheStr = dic[number];
+                }
+                else
+                {
+                    cacheStr = Multiply(num1, number);
+                    dic.Add(number, cacheStr);
+                }
+                var str = new string('0', moveLeftLen);
+                result = Add(result, cacheStr + str);
+            }
+            return result;
+        }
+
+        public string Multiply(string num1, int num2)
+        {
+            if (num2 == 0)
+                return "0";
+            if (num2 == 1)
+                return num1;
+            var result = new List<char>();
+            var preValue = 0;
+            var index = num1.Length - 1;
+            while (true)
+            {
+                if (preValue == 0 && index < 0)
+                    break;
+                var value1 = index >= 0 ? num1[index] - '0' : 0;
+                var value = preValue + num2 * value1;
+                if (value >= 10)
+                {
+                    preValue = value / 10;
+                    result.Insert(0, (char)(value % 10 + 48));
+                }
+                else
+                {
+                    preValue = 0;
+                    result.Insert(0, (char)(value + 48));
+                }
+                index--;
+            }
+            return new string(result.ToArray());
+        }
+
+        public string Add(string num1, string num2)
+        {
+            if (num1 == "0" && num2 == "0")
+                return "0";
+            if (num1 == "0")
+                return num2;
+            if (num2 == "0")
+                return num1;
+
+            var result = new List<char>();
+            var index1 = num1.Length - 1;
+            var index2 = num2.Length - 1;
+            var preValue = 0;
+            while(true)
+            {
+                if (preValue == 0 && index1 < 0 && index2 < 0)
+                    break;
+                var value1 = index1 >= 0 ? num1[index1] - '0' : 0;
+                var value2 = index2 >= 0 ? num2[index2] - '0' : 0;
+                var value = preValue + value1 + value2;
+
+                if (value >= 10)
+                {
+                    preValue = 1;
+                    result.Insert(0, (char)(value % 10 + 48));
+                }
+                else
+                {
+                    preValue = 0;
+                    result.Insert(0, (char)(value + 48));
+                }
+
+                index1--;
+                index2--;
+
+            }
+            return new string(result.ToArray());
+        }
     }
 }
