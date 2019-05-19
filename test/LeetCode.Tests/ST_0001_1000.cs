@@ -586,6 +586,29 @@ namespace LeetCode.Tests
             Assert.Equal("0", _s.Multiply("111", "0"));
             Assert.Equal("21733139600", _s.Multiply("856985", "25360"));
         }
-    }
 
+        [Fact]
+        public void LC_0045_Jump()
+        {
+            Assert.True(2 == _s.Jump(new int[] { 2, 3, 1, 1, 4 }));
+            Assert.True(0 == _s.Jump(new int[] { 2 }));
+            Assert.True(4 == _s.Jump(new int[] { 1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 2 }));
+        }
+            
+        [Fact]
+        public void LC_0046_Permute()
+        {
+            var expectResult = new List<List<int>>() {
+                new List<int>(){ 1,2,3 },
+                new List<int>(){ 1,3,2 },
+                new List<int>(){ 2,1,3 },
+                new List<int>(){ 2,3,1 },
+                new List<int>(){ 3,1,2 },
+                new List<int>(){ 3,2,1 }
+            }.Select(item => string.Join("", item));
+
+            var result = _s.Permute(new int[] { 1, 2, 3 }).Select(item => string.Join("", item));
+            Assert.True(expectResult.CompareSet(result));
+        }
+    }
 }

@@ -52,7 +52,7 @@ namespace LeetCode
             array[right] = temp;
         }
 
-        public void Permutation(ref int[] array, int start, ref List<List<int>> outPut)
+        public void Permutation(ref int[] array, int start, ref List<IList<int>> outPut)
         {
             if (start == array.Length - 1)
             {

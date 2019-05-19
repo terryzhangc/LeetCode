@@ -2045,6 +2045,62 @@ namespace LeetCode
             return result;
         }
 
+        /// <summary>
+        /// LC_0045
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int Jump(int[] nums)
+        {
+            if (nums == null || nums.Length == 1)
+                return 0;
+            var steps = new HashSet<int>[nums.Length];
+            var dp = new int[nums.Length];
+            for (int i = 0; i < dp.Length; i++)
+            {
+                dp[i] = int.MaxValue;
+            }
+            for (int i = 0; i < nums.Length; i++)
+            {
+                for (int j = 1; j > 0 && j <= nums[i] && i + j < nums.Length; j++)
+                {
+                    if (steps[i + j] == null)
+                    {
+                        steps[i + j] = new HashSet<int>();
+                    }
+                    steps[i + j].Add(i);
+                }
+
+                if (i == 0)
+                {
+                    dp[i] = 0;
+                }
+                else
+                {
+                    foreach (var item in steps[i])
+                    {
+                        if (dp[item] + 1 < dp[i])
+                            dp[i] = dp[item] + 1;
+                    }
+                }
+            }
+            return dp[nums.Length - 1];
+        }
+
+        /// <summary>
+        /// LC_0046
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<IList<int>> Permute(int[] nums)
+        {
+            List<IList<int>> list = new List<IList<int>>();
+            if (nums == null)
+                return list;
+            Permutation(ref nums, 0, ref list);
+            return list;
+        }
+
         public string Multiply(string num1, int num2)
         {
             if (num2 == 0)
