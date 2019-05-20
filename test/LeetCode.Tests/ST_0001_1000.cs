@@ -594,7 +594,7 @@ namespace LeetCode.Tests
             Assert.True(0 == _s.Jump(new int[] { 2 }));
             Assert.True(4 == _s.Jump(new int[] { 1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 2 }));
         }
-            
+
         [Fact]
         public void LC_0046_Permute()
         {
@@ -609,6 +609,52 @@ namespace LeetCode.Tests
 
             var result = _s.Permute(new int[] { 1, 2, 3 }).Select(item => string.Join("", item));
             Assert.True(expectResult.CompareSet(result));
+        }
+        [Fact]
+        public void LC_0061_RotateRight()
+        {
+            var linkList1 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };
+            var linkList2 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };
+            var linkList3 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };
+            var linkList4 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };
+            Assert.True(new int[] { 2, 0, 1 }.CompareArray(_s.RotateRight(linkList1, 1).ToList().ToArray()));
+            Assert.True(new int[] { 1, 2, 0 }.CompareArray(_s.RotateRight(linkList2, 2).ToList().ToArray()));
+            Assert.True(new int[] { 0, 1, 2 }.CompareArray(_s.RotateRight(linkList3, 3).ToList().ToArray()));
+            Assert.True(new int[] { 2, 0, 1 }.CompareArray(_s.RotateRight(linkList4, 4).ToList().ToArray()));
+        }
+        [Fact]
+        public void LC_0082_DeleteDuplicates1()
+        {
+            var linkList1 = new ListNode(1) { next = new ListNode(1) { next = new ListNode(2) } };
+            var linkList2 = new ListNode(1) { next = new ListNode(2) { next = new ListNode(2) } };
+            Assert.True(new int[] { 1, 2 }.CompareArray(_s.DeleteDuplicates1(linkList1).ToList().ToArray()));
+            Assert.True(new int[] { 1, 2 }.CompareArray(_s.DeleteDuplicates1(linkList2).ToList().ToArray()));
+        }
+
+        [Fact]
+        public void LC_0083_DeleteDuplicates2()
+        {
+            var linkList1 = new ListNode(1) { next = new ListNode(1) { next = new ListNode(2) } };
+            var linkList2 = new ListNode(1) { next = new ListNode(2) { next = new ListNode(2) } };
+            var linkList3 = new ListNode(1)
+            {
+                next = new ListNode(2)
+                {
+                    next = new ListNode(3)
+                    {
+                        next = new ListNode(3)
+                        {
+                            next = new ListNode(4)
+                            {
+                                next = new ListNode(4) { next = new ListNode(5) { } }
+                            }
+                        }
+                    }
+                }
+            };
+            Assert.True(new int[] { 2 }.CompareArray(_s.DeleteDuplicates2(linkList1).ToList().ToArray()));
+            Assert.True(new int[] { 1 }.CompareArray(_s.DeleteDuplicates2(linkList2).ToList().ToArray()));
+            Assert.True(new int[] { 1, 2, 5 }.CompareArray(_s.DeleteDuplicates2(linkList3).ToList().ToArray()));
         }
     }
 }

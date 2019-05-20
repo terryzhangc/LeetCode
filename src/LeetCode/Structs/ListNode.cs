@@ -25,5 +25,17 @@ namespace LeetCode.Structs
             }
             return head.next;
         }
+
+        public List<int> ToList()
+        {
+            var list = new List<int>();
+            var pNode = this;
+            while (pNode != null)
+            {
+                list.Add(pNode.val);
+                pNode = pNode.next;
+            }
+            return list;
+        }
     }
 }

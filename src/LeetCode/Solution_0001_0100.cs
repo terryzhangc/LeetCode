@@ -2101,6 +2101,109 @@ namespace LeetCode
             return list;
         }
 
+        /// <summary>
+        /// LC_0061
+        /// </summary>
+        /// <param name="head"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public ListNode RotateRight(ListNode head, int k)
+        {
+            if (head == null || head.next == null)
+                return head;
+            if (k == 0)
+                return head;
+
+            var nodeCount = 0;
+            ListNode tail = null;
+            var pNode = head;
+            while (pNode != null)
+            {
+                nodeCount++;
+                tail = pNode;
+                pNode = pNode.next;
+            }
+            if (nodeCount == k || (k % nodeCount) == 0)
+                return head;
+
+            ListNode PreNode = null;
+            ListNode curNode = head;
+            var number = 0;
+            var destNumber = k < nodeCount ? k : k % nodeCount;
+            while (curNode != null)
+            {
+                PreNode = curNode;
+                curNode = curNode.next;
+                number++;
+                if (nodeCount - destNumber == number)
+                    break;
+
+            }
+            tail.next = head;
+            PreNode.next = null;
+            return curNode;
+        }
+
+        /// <summary>
+        /// LC_0082
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode DeleteDuplicates1(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return head;
+            var cursor = head;
+            ListNode preNode = null;
+            while (cursor != null)
+            {
+                if (preNode != null && preNode.val == cursor.val)
+                {
+                    cursor = cursor.next;
+                    preNode.next = cursor;
+                    continue;
+                }
+                preNode = cursor;
+                cursor = cursor.next;
+            }
+            return head;
+        }
+
+        /// <summary>
+        /// LC_0083
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode DeleteDuplicates2(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return head;
+            var cursor = head;
+            ListNode preNode = null;
+            while (cursor != null)
+            {
+                var startCursor = cursor;
+                while (cursor.next != null && cursor.val == cursor.next.val)
+                {
+                    cursor = cursor.next;
+                }
+                if (startCursor != cursor)
+                {
+                    cursor = cursor.next;
+                    if (preNode == null)
+                        head = cursor;
+                    else
+                        preNode.next = cursor;
+                }
+                else
+                {
+                    preNode = cursor;
+                    cursor = cursor.next;
+                }
+            }
+            return head;
+        }
+
         public string Multiply(string num1, int num2)
         {
             if (num2 == 0)
