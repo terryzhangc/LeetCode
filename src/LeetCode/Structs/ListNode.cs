@@ -15,15 +15,23 @@ namespace LeetCode.Structs
             {
                 return null;
             }
-            var head = new ListNode(0);
-            var p = head;
+            ListNode head = null;
+            ListNode p = null;
             for (int i = 0; i < list.Length; i++)
             {
                 var newNode = new ListNode(list[i]);
-                p.next = newNode;
-                p = p.next;
+                if (i == 0)
+                {
+                    head = newNode;
+                    p = head;
+                }
+                else
+                {
+                    p.next = newNode;
+                    p = p.next;
+                }
             }
-            return head.next;
+            return head;
         }
 
         public List<int> ToList()

@@ -656,5 +656,27 @@ namespace LeetCode.Tests
             Assert.True(new int[] { 1 }.CompareArray(_s.DeleteDuplicates2(linkList2).ToList().ToArray()));
             Assert.True(new int[] { 1, 2, 5 }.CompareArray(_s.DeleteDuplicates2(linkList3).ToList().ToArray()));
         }
+
+        [Fact]
+        public void LC_0086_Partition()
+        {
+            var linkList1 = ListNode.GenerateList(new int[] { 1, 4, 3, 2, 5, 2 });
+            var linkList2 = ListNode.GenerateList(new int[] { 1, 1 });
+            Assert.True(new int[] { 1, 2, 2, 4, 3, 5 }.CompareArray(_s.Partition(linkList1, 3).ToList().ToArray()));
+            Assert.True(new int[] { 1, 1 }.CompareArray(_s.Partition(linkList2, 0).ToList().ToArray()));
+        }
+
+        [Fact]
+        public void LC_0092_ReverseBetween()
+        {
+            var linkList1 = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
+            var linkList2 = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
+            var linkList3 = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
+            var linkList4 = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
+            Assert.True(new int[] { 1, 4, 3, 2, 5 }.CompareArray(_s.ReverseBetween(linkList1, 2, 4).ToList().ToArray()));
+            Assert.True(new int[] { 5, 4, 3, 2, 1 }.CompareArray(_s.ReverseBetween(linkList2, 1, 5).ToList().ToArray()));
+            Assert.True(new int[] { 1, 2, 3, 5, 4 }.CompareArray(_s.ReverseBetween(linkList3, 4, 5).ToList().ToArray()));
+            Assert.True(new int[] { 2, 1, 3, 4, 5 }.CompareArray(_s.ReverseBetween(linkList4, 1, 2).ToList().ToArray()));
+        }
     }
 }

@@ -2204,6 +2204,125 @@ namespace LeetCode
             return head;
         }
 
+        /// <summary>
+        /// LC_0086
+        /// </summary>
+        /// <param name="head"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public ListNode Partition(ListNode head, int x)
+        {
+            if (head == null || head.next == null)
+                return head;
+            ListNode lessHead = null;
+            ListNode lessCurosr = null;
+            ListNode greaterHead = null;
+            ListNode greaterCursor = null;
+            var cursor = head;
+            while (cursor != null)
+            {
+                if (cursor.val < x)
+                {
+                    if (lessHead == null)
+                    {
+                        lessHead = cursor;
+                        lessCurosr = cursor;
+                    }
+                    else
+                    {
+                        lessCurosr.next = cursor;
+                        lessCurosr = lessCurosr.next;
+                    }
+                }
+                else
+                {
+                    if (greaterHead == null)
+                    {
+                        greaterHead = cursor;
+                        greaterCursor = cursor;
+                    }
+                    else
+                    {
+                        greaterCursor.next = cursor;
+                        greaterCursor = greaterCursor.next;
+                    }
+                }
+                cursor = cursor.next;
+            }
+            if (lessHead == null)
+            {
+                return greaterHead;
+            }
+            if (greaterHead == null)
+            {
+                return lessHead;
+            }
+            greaterCursor.next = null;
+            lessCurosr.next = greaterHead;
+            return lessHead;
+        }
+
+        /// <summary>
+        /// LC_0092
+        /// </summary>
+        /// <param name="head"></param>
+        /// <param name="m"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public ListNode ReverseBetween(ListNode head, int m, int n)
+        {
+            if (head == null || head.next == null)
+                return head;
+            if (m == n)
+                return head;
+
+            ListNode cursor = head;
+            ListNode preCursor = null;
+            ListNode nextCursor = null;
+            ListNode reverseHead = null;
+            ListNode reverseTail = null;
+
+            for (int i = 1; i <= n; i++)
+            {
+                if (i >= m)
+                {
+                    var temp = cursor;
+                    // append node to reverse list
+                    if (reverseHead == null)
+                    {
+                        cursor = cursor.next;
+                        reverseHead = temp;
+                        temp.next = null;
+                        reverseTail = temp;
+                    }
+                    else
+                    {
+                        cursor = cursor.next;
+                        temp.next = reverseHead;
+                        reverseHead = temp;
+                    }
+                }
+                else
+                {
+                    preCursor = cursor;
+                    cursor = cursor.next;
+                }
+            }
+            nextCursor = cursor;
+
+            if(preCursor == null)
+            {
+                reverseTail.next = nextCursor;
+                return reverseHead;
+            }
+            else
+            {
+                preCursor.next = reverseHead;
+                reverseTail.next = nextCursor;
+                return head;
+            }
+        }
+
         public string Multiply(string num1, int num2)
         {
             if (num2 == 0)

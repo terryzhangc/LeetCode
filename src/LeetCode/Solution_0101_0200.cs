@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LeetCode.Structs;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,77 @@ namespace LeetCode
         {
 
         }
+
+        /// <summary>
+        /// LC_0108
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public TreeNode SortedArrayToBST(int[] nums)
+        {
+            if (nums == null || nums.Length == 0)
+                return null;
+            return SortedListToBST(nums, 0, nums.Length - 1);
+        }
+
+        private TreeNode SortedListToBST(int[] list, int start, int end)
+        {
+            if (start > end)
+                return null;
+            var middle = (start + end) / 2;
+            var treeNode = new TreeNode(list[middle]);
+            treeNode.left = SortedListToBST(list, start, middle - 1);
+            treeNode.right = SortedListToBST(list, middle + 1, end);
+            return treeNode;
+        }
+
+        /// <summary>
+        /// LC_0109
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public TreeNode SortedListToBST(ListNode head)
+        {
+            if (head == null)
+                return null;
+            if (head.next == null)
+                return new TreeNode(head.val);
+            //var list = new List<ListNode>();
+            //var cursor = head;
+            //while (cursor != null)
+            //{
+            //    list.Add(cursor);
+            //    cursor = cursor.next;
+            //}
+            //return SortedListToBST(list, 0, list.Count - 1);
+
+            ListNode preCursor = null;
+            ListNode slow = head;
+            ListNode fast = head;
+            while (fast != null && fast.next != null)
+            {
+                preCursor = slow;
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            var treeNode = new TreeNode(slow.val);
+            preCursor.next = null;
+            treeNode.left = SortedListToBST(head);
+            treeNode.right = SortedListToBST(slow.next);
+            return treeNode;
+        }
+
+        private TreeNode SortedListToBST(List<ListNode> list, int start, int end)
+        {
+            if (start > end)
+                return null;
+            var middle = (start + end) / 2;
+            var treeNode = new TreeNode(list[middle].val);
+            treeNode.left = SortedListToBST(list, start, middle - 1);
+            treeNode.right = SortedListToBST(list, middle + 1, end);
+            return treeNode;
+        }
+
         /// <summary>
         /// LC_0121
         /// </summary>
@@ -53,6 +125,42 @@ namespace LeetCode
             }
 
             return m[1, prices.Length - 1];
+        }
+
+        /// <summary>
+        /// LC_0138
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public Node CopyRandomList(Node head)
+        {
+            if (head == null)
+                return head;
+            Dictionary<Node, Node> dic = new Dictionary<Node, Node>();
+            Node newHead = new Node();
+            Node newCursor = newHead;
+            Node cursor = head;
+            while (cursor != null)
+            {
+                newCursor.next = new Node(cursor.val, null, null);
+                dic.Add(cursor, newCursor.next);
+                cursor = cursor.next;
+                newCursor = newCursor.next;
+            }
+            cursor = head;
+            while (cursor != null)
+            {
+                if (cursor.random == null)
+                {
+                    dic[cursor].random = null;
+                }
+                else
+                {
+                    dic[cursor].random = dic[cursor.random];
+                }
+                cursor = cursor.next;
+            }
+            return newHead.next;
         }
     }
 }
