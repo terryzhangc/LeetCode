@@ -58,5 +58,25 @@ namespace LeetCode.Tests
 
             var result = _s.CopyRandomList(node1);
         }
+
+        [Fact]
+        public void LC_0142_DetectCycle()
+        {
+            var linkList1 = ListNode.GenerateList(new int[] { 3, 2, 0, -4 });
+            linkList1.next.next.next.next = linkList1.next;
+            var node = _s.DetectCycle(linkList1);
+            Assert.True(node == linkList1.next);
+        }
+
+        [Fact]
+        public void LC_0143_ReorderList()
+        {
+            var linkList1 = ListNode.GenerateList(new int[] { 1, 2, 3, 4 });
+            var linkList2 = ListNode.GenerateList(new int[] { 1, 2, 3, 4, 5 });
+            _s.ReorderList(linkList1);
+            _s.ReorderList(linkList2);
+            Assert.True(new int[] { 1, 4, 2, 3 }.CompareArray(linkList1.ToList().ToArray()));
+            Assert.True(new int[] { 1, 5, 2, 4, 3 }.CompareArray(linkList2.ToList().ToArray()));
+        }
     }
 }

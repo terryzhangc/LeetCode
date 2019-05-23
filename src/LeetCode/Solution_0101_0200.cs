@@ -162,5 +162,129 @@ namespace LeetCode
             }
             return newHead.next;
         }
+
+        /// <summary>
+        /// LC_0141
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public bool HasCycle(ListNode head)
+        {
+            if (head == null)
+                return false;
+            ListNode slowCursor = head;
+            ListNode fastCursor = head;
+            var result = false;
+            while (fastCursor != null && fastCursor.next != null)
+            {
+                slowCursor = slowCursor.next;
+                fastCursor = fastCursor.next.next;
+                if (slowCursor == fastCursor)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// LC_0142
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode DetectCycle(ListNode head)
+        {
+            if (head == null)
+                return null;
+            ListNode slowCursor = head;
+            ListNode fastCursor = head;
+            var result = false;
+            while (fastCursor != null && fastCursor.next != null)
+            {
+                slowCursor = slowCursor.next;
+                fastCursor = fastCursor.next.next;
+                if (slowCursor == fastCursor)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            if (!result)
+                return null;
+
+            if (slowCursor == slowCursor.next)
+                return slowCursor;
+
+            var circleCount = 0;
+            do
+            {
+                circleCount++;
+                fastCursor = fastCursor.next;
+            } while (fastCursor != slowCursor);
+
+             slowCursor = head;
+             fastCursor = head;
+
+            while (circleCount > 0)
+            {
+                fastCursor = fastCursor.next;
+                circleCount--;
+            }
+
+            while (fastCursor != slowCursor)
+            {
+                slowCursor = slowCursor.next;
+                fastCursor = fastCursor.next;
+            }
+            return slowCursor;
+        }
+
+        /// <summary>
+        /// LC_0143
+        /// </summary>
+        /// <param name="head"></param>
+        public void ReorderList(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return;
+            ListNode slowCursor = head;
+            ListNode fastCursor = head;
+            ListNode preCursor = null;
+            while (fastCursor != null && fastCursor.next != null)
+            {
+                preCursor = slowCursor;
+                slowCursor = slowCursor.next;
+                fastCursor = fastCursor.next.next;
+            }
+
+            preCursor.next = null;
+
+            ListNode nextCursor = slowCursor;
+            ListNode nextHeader = null;
+            while (nextCursor != null)
+            {
+                var temp = nextCursor;
+                nextCursor = nextCursor.next;
+                temp.next = nextHeader;
+                nextHeader = temp;
+            }
+
+            preCursor = head;
+            nextCursor = nextHeader;
+
+            while (preCursor != null && nextCursor != null)
+            {
+                var preTemp = preCursor;
+                var nextTemp = nextCursor;
+                preCursor = preCursor.next;
+                nextCursor = nextCursor.next;
+                preTemp.next = nextTemp;
+                if (preCursor == null && nextCursor != null)
+                    nextTemp.next = nextCursor;
+                else
+                    nextTemp.next = preCursor;
+            }
+        }
     }
 }
