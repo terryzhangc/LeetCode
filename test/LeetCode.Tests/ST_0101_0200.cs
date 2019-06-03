@@ -99,7 +99,8 @@ namespace LeetCode.Tests
         [Fact]
         public void LC_0148_SortList()
         {
-            _s.SortList(null);
+            var linkList1 = ListNode.GenerateList(new int[] { 4, 3, 2, 1 });
+            Assert.True(new int[] { 1, 2, 3, 4 }.CompareArray(_s.SortList(linkList1).ToList().ToArray()));
         }
 
         [Fact]

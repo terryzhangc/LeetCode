@@ -359,7 +359,57 @@ namespace LeetCode
         /// <returns></returns>
         public ListNode SortList(ListNode head)
         {
-            return null;
+            return MergeSort(head);
+        }
+
+        private ListNode MergeSort(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return head;
+            var slow = head;
+            var fast = head;
+            var pre = head;
+            while (fast != null && fast.next != null)
+            {
+                pre = slow;
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            pre.next = null;
+            var left = MergeSort(head);
+            var right = MergeSort(slow);
+            var leftCursor = left;
+            var rightCursor = right;
+            ListNode result = new ListNode(0);
+            ListNode resultCursor = result;
+
+            while (leftCursor != null && rightCursor != null)
+            {
+                ListNode temp = null;
+                if (leftCursor.val <= rightCursor.val)
+                {
+                    temp = leftCursor;
+                    leftCursor = leftCursor.next;
+                }
+                else
+                {
+                    temp = rightCursor;
+                    rightCursor = rightCursor.next;
+                }
+                resultCursor.next = temp;
+                resultCursor = resultCursor.next;
+            }
+            if (rightCursor != null)
+            {
+                resultCursor.next = rightCursor;
+            }
+
+            if (leftCursor != null )
+            {
+                resultCursor.next = leftCursor;
+            }
+
+            return result.next;
         }
 
         /// <summary>
