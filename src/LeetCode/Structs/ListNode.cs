@@ -45,5 +45,10 @@ namespace LeetCode.Structs
             }
             return list;
         }
+
+        public override string ToString()
+        {
+            return val.ToString();
+        }
     }
 }

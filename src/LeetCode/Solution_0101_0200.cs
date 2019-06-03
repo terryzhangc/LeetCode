@@ -286,5 +286,98 @@ namespace LeetCode
                     nextTemp.next = preCursor;
             }
         }
+
+        /// <summary>
+        /// LC_0147
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode InsertionSortList(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return head;
+
+            ListNode result = null;
+            ListNode cursor = null;
+            ListNode preCursor = null;
+            ListNode insert = head;
+            cursor = head;
+            // skip the sorted part
+            while (cursor != null)
+            {
+                preCursor = cursor;
+                cursor = cursor.next;
+                if (cursor == null || preCursor.val > cursor.val)
+                {
+                    result = head;
+                    preCursor.next = null;
+                    insert = cursor;
+                    break;
+                }
+            }
+            preCursor = null;
+            cursor = result;
+
+            while (insert != null)
+            {
+                var temp = insert;
+                insert = insert.next;
+
+                while (cursor != null)
+                {
+                    if (preCursor == null && temp.val <= cursor.val)
+                    {
+                        temp.next = cursor;
+                        result = temp;
+                        break;
+                    }
+                    else if (preCursor != null && temp.val > preCursor.val && temp.val <= cursor.val)
+                    {
+                        temp.next = cursor;
+                        preCursor.next = temp;
+                        break;
+                    }
+                    else if (cursor.next == null && temp.val > cursor.val)
+                    {
+                        cursor.next = temp;
+                        temp.next = null;
+                        break;
+                    }
+                    preCursor = cursor;
+                    cursor = cursor.next;
+                }
+                preCursor = null;
+                cursor = result; //reset pointer
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// LC_0148
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode SortList(ListNode head)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// LC_0160
+        /// </summary>
+        /// <param name="headA"></param>
+        /// <param name="headB"></param>
+        /// <returns></returns>
+        public ListNode GetIntersectionNode(ListNode headA, ListNode headB)
+        {
+            ListNode a = headA;
+            ListNode b = headB;
+            while (a != b)
+            {
+                a = (a == null ? headB : a.next);
+                b = (b == null ? headA : b.next);
+            }
+            return a;
+        }
     }
 }

@@ -78,5 +78,36 @@ namespace LeetCode.Tests
             Assert.True(new int[] { 1, 4, 2, 3 }.CompareArray(linkList1.ToList().ToArray()));
             Assert.True(new int[] { 1, 5, 2, 4, 3 }.CompareArray(linkList2.ToList().ToArray()));
         }
+
+        [Fact]
+        public void LC_0147_InsertionSortList()
+        {
+            var linkList1 = ListNode.GenerateList(new int[] { 4, 3, 1, 2 });
+            var linkList2 = ListNode.GenerateList(new int[] { 1 });
+            var linkList3 = ListNode.GenerateList(new int[] { 2, 1 });
+            var linkList4 = ListNode.GenerateList(new int[] { 1, 2 });
+            var linkList5 = ListNode.GenerateList(new int[] { 1, 1 });
+            var linkList6 = ListNode.GenerateList(new int[] { 4, 19, 14, 5, -3, 1, 8, 5, 11, 15 });
+            Assert.True(new int[] { 1, 2, 3, 4 }.CompareArray(_s.InsertionSortList(linkList1).ToList().ToArray()));
+            Assert.True(new int[] { 1 }.CompareArray(_s.InsertionSortList(linkList2).ToList().ToArray()));
+            Assert.True(new int[] { 1, 2 }.CompareArray(_s.InsertionSortList(linkList3).ToList().ToArray()));
+            Assert.True(new int[] { 1, 2 }.CompareArray(_s.InsertionSortList(linkList4).ToList().ToArray()));
+            Assert.True(new int[] { 1, 1 }.CompareArray(_s.InsertionSortList(linkList5).ToList().ToArray()));
+            Assert.True(new int[] { -3, 1, 4, 5, 5, 8, 11, 14, 15, 19 }.CompareArray(_s.InsertionSortList(linkList6).ToList().ToArray()));
+        }
+
+        [Fact]
+        public void LC_0148_SortList()
+        {
+            _s.SortList(null);
+        }
+
+        [Fact]
+        public void LC_0160_GetIntersectionNode()
+        {
+            var linkList1 = ListNode.GenerateList(new int[] { 4, 1, 8, 4, 5 });
+            var linkList2 = new ListNode(5) { next = new ListNode(0) { next = new ListNode(1) { next = linkList1.next.next } } };
+            Assert.True(linkList1.next.next == _s.GetIntersectionNode(linkList1, linkList2));
+        }
     }
 }
