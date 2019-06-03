@@ -78,5 +78,12 @@ namespace LeetCode.Tests
             Assert.True(new int[] { 1, 4, 2, 3 }.CompareArray(linkList1.ToList().ToArray()));
             Assert.True(new int[] { 1, 5, 2, 4, 3 }.CompareArray(linkList2.ToList().ToArray()));
         }
+
+        [Fact]
+        public void LC_0148_SortList()
+        {
+            var linkList1 = ListNode.GenerateList(new int[] { 1, 2, 3, 4 });
+            Assert.True(_s.SortList(linkList1) != null);
+        }
     }
 }

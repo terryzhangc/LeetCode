@@ -286,5 +286,15 @@ namespace LeetCode
                     nextTemp.next = preCursor;
             }
         }
+
+        /// <summary>
+        /// LC_0148
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode SortList(ListNode head)
+        {
+            return null;
+        }
     }
 }
