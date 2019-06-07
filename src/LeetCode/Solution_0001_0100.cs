@@ -2391,5 +2391,100 @@ namespace LeetCode
             }
             return new string(result.ToArray());
         }
+
+        /// <summary>
+        /// LC_0094
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public IList<int> InorderTraversal(TreeNode root)
+        {
+            var result = new List<int>();
+            var stack = new Stack<TreeNode>();
+            var temp = root;
+            while (temp != null || stack.Count != 0)
+            {
+                while (temp != null)
+                {
+                    stack.Push(temp);
+                    temp = temp.left;
+                }
+                if (stack.Count != 0)
+                {
+                    temp = stack.Pop();
+                    result.Add(temp.val);
+                    temp = temp.right;
+                }
+            }
+            //InorderTraversal(root, result);
+            return result;
+        }
+
+        private void InorderTraversal(TreeNode root, IList<int> result)
+        {
+            if (root == null)
+                return;
+            InorderTraversal(root.left, result);
+            result.Add(root.val);
+            InorderTraversal(root.right, result);
+        }
+
+        /// <summary>
+        /// LC_0095
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public IList<TreeNode> GenerateTrees(int n)
+        {
+            var result = new List<TreeNode>();
+            if (n <= 0)
+                return result;
+            var array = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                array[i] = i + 1;
+            }
+            result = GenerateTrees(ref array, 0, n - 1);
+            return result;
+        }
+
+        private List<TreeNode> GenerateTrees(ref int[] array, int start, int end)
+        {
+            var result = new List<TreeNode>();
+            if(start> end)
+            {
+                result.Add(null);
+                return result;
+            }
+            else
+            {
+                for (int i = start; i <= end; i++)
+                {
+                    var leftTrees = GenerateTrees(ref array, start, i - 1);
+                    var rightTrees = GenerateTrees(ref array, i + 1, end);
+                    foreach (var lNode in leftTrees)
+                    {
+                        foreach (var rNode in rightTrees)
+                        {
+                            var newRoot = new TreeNode(array[i]);
+                            newRoot.left = lNode;
+                            newRoot.right = rNode;
+                            result.Add(newRoot);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        private TreeNode CloneTree(TreeNode root)
+        {
+            if (root == null)
+                return null;
+            var node = new TreeNode(root.val);
+            node.left = CloneTree(root.left);
+            node.right = CloneTree(root.right);
+            return node;
+        }
     }
 }

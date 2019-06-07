@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace LeetCode.Tests
 {
-    public class ST_0001_1000
+    public class ST_0001_0100
     {
         private Solution_0001_0100 _s;
         private int[] _bigArray;
-        public ST_0001_1000()
+        public ST_0001_0100()
         {
             _s = new Solution_0001_0100();
             _bigArray = new int[] { 82597, -9243, 62390, 83030, -97960, -26521, -61011, 83390,
@@ -677,6 +677,21 @@ namespace LeetCode.Tests
             Assert.True(new int[] { 5, 4, 3, 2, 1 }.CompareArray(_s.ReverseBetween(linkList2, 1, 5).ToList().ToArray()));
             Assert.True(new int[] { 1, 2, 3, 5, 4 }.CompareArray(_s.ReverseBetween(linkList3, 4, 5).ToList().ToArray()));
             Assert.True(new int[] { 2, 1, 3, 4, 5 }.CompareArray(_s.ReverseBetween(linkList4, 1, 2).ToList().ToArray()));
+        }
+
+        [Fact]
+        public void LC_0094_InorderTraversal()
+        {
+            var tree = new TreeNode(1);
+            tree.right = new TreeNode(2);
+            tree.right.left = new TreeNode(3);
+            Assert.True(new int[] { 1, 3, 2 }.CompareArray(_s.InorderTraversal(tree).ToArray()));
+        }
+
+        [Fact]
+        public void LC_0095_GenerateTrees()
+        {
+            var result = _s.GenerateTrees(3);
         }
     }
 }
