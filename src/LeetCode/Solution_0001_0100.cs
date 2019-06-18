@@ -2149,6 +2149,67 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0048
+        /// </summary>
+        /// <param name="matrix"></param>
+        public void Rotate(int[][] matrix)
+        {
+            if (matrix == null)
+                return;
+            var size = matrix.Length;
+            //转置
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = i + 1; j < size; j++)
+                {
+                    var temp = matrix[i][j];
+                    matrix[i][j] = matrix[j][i];
+                    matrix[j][i] = temp;
+                }
+            }
+            //每行数组 前后翻转
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size / 2; j++)
+                {
+                    var temp = matrix[i][j];
+                    matrix[i][j] = matrix[i][size - j - 1];
+                    matrix[i][size - j - 1] = temp;
+                }
+            }
+        }
+
+        /// <summary>
+        /// LC_0049
+        /// </summary>
+        /// <param name="strs"></param>
+        /// <returns></returns>
+        public IList<IList<string>> GroupAnagrams(string[] strs)
+        {
+            var result = new List<IList<string>>();
+            var dic = new Dictionary<string, IList<string>>();
+            var charNums = new int[26];
+            foreach (var str in strs)
+            {
+                Array.Fill(charNums, 0);
+                foreach (var ch in str)
+                {
+                    charNums[ch - 'a']++;
+                }
+                var code = string.Join(",", charNums);
+                if (dic.ContainsKey(code))
+                    dic[code].Add(str);
+                else
+                    dic.Add(code, new List<string>() { str });
+            }
+            foreach (var item in dic)
+            {
+                result.Add(item.Value);
+            }
+            return result;
+        }
+
+        /// <summary>
         /// LC_0061
         /// </summary>
         /// <param name="head"></param>

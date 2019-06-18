@@ -634,6 +634,38 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0048_Rotate()
+        {
+            var matrix = new int[][]{
+                new int[] { 1, 2, 3 },
+                new int[] { 4, 5, 6 },
+                new int[] { 7, 8, 9 }
+            };
+            _s.Rotate(matrix);
+            Assert.True(new int[] { 7, 4, 1 }.CompareArray(matrix[0]));
+            Assert.True(new int[] { 8, 5, 2 }.CompareArray(matrix[1]));
+            Assert.True(new int[] { 9, 6, 3 }.CompareArray(matrix[2]));
+        }
+
+        [Fact]
+        public void LC_0049_GroupAnagrams()
+        {
+            var result = _s.GroupAnagrams(new string[] { "eat", "tea", "tan", "ate", "nat", "bat" })
+                .OrderByDescending(x => x.Count).ToList();
+            var expectResult = new List<List<string>>() {
+                new List<string>(){ "ate","eat","tea" },
+                new List<string>(){ "nat","tan"},
+                new List<string>(){ "bat" },
+            };
+
+            Assert.True(result.Count == expectResult.Count);
+            for (int i = 0; i < result.Count; i++)
+            {
+                Assert.True(result[i].CompareSet(expectResult[i]));
+            }
+        }
+
+        [Fact]
         public void LC_0061_RotateRight()
         {
             var linkList1 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };
