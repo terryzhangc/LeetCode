@@ -2102,6 +2102,53 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0047
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<IList<int>> PermuteUnique(int[] nums)
+        {
+            List<IList<int>> list = new List<IList<int>>();
+            if (nums == null)
+                return list;
+            Array.Sort(nums);
+            PermutationUnique(ref nums, 0, ref list);
+            return list;
+        }
+
+        private void PermutationUnique(ref int[] array, int start, ref List<IList<int>> outPut)
+        {
+            if (start == array.Length - 1)
+            {
+                outPut.Add(new List<int>(array));
+                return;
+            }
+            for (int i = start; i < array.Length; i++)
+            {
+                //{start, i} start位置到i位置存在连续相同数字，则放弃本次i的交换，因为之前已经交换过，结果集相同.
+                if (Same(ref array, start, i))
+                {
+                    continue;
+                }
+                Swap(ref array, i, start);
+                PermutationUnique(ref array, start + 1, ref outPut);
+                Swap(ref array, i, start);
+            }
+        }
+
+        private bool Same(ref int[] nums, int start, int end)
+        {
+            for (int i = start; i < end; i++)
+            {
+                if (nums[i] == nums[end])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// LC_0061
         /// </summary>
         /// <param name="head"></param>
@@ -2485,6 +2532,54 @@ namespace LeetCode
             node.left = CloneTree(root.left);
             node.right = CloneTree(root.right);
             return node;
+        }
+
+        /// <summary>
+        /// LC_0096
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int NumTrees(int n)
+        {
+            if (n <= 0)
+                return 0;
+            if (n == 1)
+                return 1;
+            var count = new int[n + 1];
+            count[0] = 1;
+            count[1] = 1;
+            for (int i = 2; i <= n; i++)
+            {
+                var sum = 0;
+                for (int start = 1; start <= i; start++)
+                {
+                    sum += (count[start - 1] * count[i - start]);
+                }
+                count[i] = sum;
+            }
+            return count[n];
+        }
+
+        /// <summary>
+        /// LC_0098
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public bool IsValidBST(TreeNode root)
+        {
+            return IsValidBST(root, null, null);
+        }
+
+        public bool IsValidBST(TreeNode root, int? min, int? max)
+        {
+            if (root == null)
+                return true;
+            var greaterThanMin = !min.HasValue ? true : min.Value < root.val;
+            var lessThanMax = !max.HasValue ? true : root.val < max.Value;
+            if (greaterThanMin && lessThanMax)
+                return IsValidBST(root.left, min, root.val) && IsValidBST(root.right, root.val, max);
+            else
+                return false;
         }
     }
 }

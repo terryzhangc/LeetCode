@@ -611,6 +611,29 @@ namespace LeetCode.Tests
             Assert.True(expectResult.CompareSet(result));
         }
         [Fact]
+        public void LC_0047_PermuteUnique()
+        {
+            var expectResult = new List<List<int>>() {
+                new List<int>(){ 1,1,2 },
+                new List<int>(){ 1,2,1 },
+                new List<int>(){ 2,1,1 },
+            }.Select(item => string.Join("", item));
+            var expectResult1 = new List<List<int>>() {
+                new List<int>(){ 1,2,3 },
+                new List<int>(){ 1,3,2 },
+                new List<int>(){ 2,1,3 },
+                new List<int>(){ 2,3,1 },
+                new List<int>(){ 3,1,2 },
+                new List<int>(){ 3,2,1 },
+            }.Select(item => string.Join("", item));
+
+            var result = _s.PermuteUnique(new int[] { 1, 1, 2 }).Select(item => string.Join("", item));
+            var result1 = _s.PermuteUnique(new int[] { 1, 2, 3 }).Select(item => string.Join("", item));
+            Assert.True(expectResult.CompareSet(result));
+            Assert.True(expectResult1.CompareSet(result1));
+        }
+
+        [Fact]
         public void LC_0061_RotateRight()
         {
             var linkList1 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };
@@ -692,6 +715,37 @@ namespace LeetCode.Tests
         public void LC_0095_GenerateTrees()
         {
             var result = _s.GenerateTrees(3);
+        }
+
+        [Fact]
+        public void LC_0096_NumTrees()
+        {
+            Assert.True(1 == _s.NumTrees(1));
+            Assert.True(2 == _s.NumTrees(2));
+            Assert.True(5 == _s.NumTrees(3));
+            Assert.True(1430 == _s.NumTrees(8));
+            Assert.True(1767263190 == _s.NumTrees(19));
+        }
+
+        [Fact]
+        public void LC_0098_IsValidBST()
+        {
+            var tree = new TreeNode(1);
+            tree.right = new TreeNode(3);
+            tree.right.left = new TreeNode(2);
+            var tree1 = new TreeNode(10);
+            tree1.left = new TreeNode(5);
+            tree1.right = new TreeNode(15);
+            tree1.right.left = new TreeNode(6);
+            tree1.right.right = new TreeNode(20);
+
+            var tree2 = new TreeNode(int.MaxValue);
+            var tree3 = new TreeNode(int.MaxValue);
+            tree3.left = new TreeNode(int.MaxValue);
+            Assert.True(_s.IsValidBST(tree));
+            Assert.False(_s.IsValidBST(tree1));
+            Assert.True(_s.IsValidBST(tree2));
+            Assert.False(_s.IsValidBST(tree3));
         }
     }
 }
