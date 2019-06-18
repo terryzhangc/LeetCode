@@ -666,6 +666,21 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0050_MyPow()
+        {
+            Assert.True(Math.Pow(-0.25, 0) == _s.MyPow(-0.25, 0));
+            Assert.True(Math.Pow(-0.25, 4) == _s.MyPow(-0.25, 4));
+            Assert.True(Math.Pow(-0.25, -4) == _s.MyPow(-0.25, -4));
+            Assert.True(Math.Pow(0.25, 4) == _s.MyPow(0.25, 4));
+            Assert.True(Math.Pow(0.25, -4) == _s.MyPow(0.25, -4));
+            Assert.True(Math.Pow(0.25, 5) == _s.MyPow(0.25, 5));
+            Assert.True(Math.Pow(0.25, -5) == _s.MyPow(0.25, -5));
+            Assert.True(Math.Pow(0.25, 1) == _s.MyPow(0.25, 1));
+            Assert.True(Math.Pow(0.25, -1) == _s.MyPow(0.25, -1));
+            Assert.True(Math.Pow(2.0, 10) == _s.MyPow(2.0, 10));
+        }
+
+        [Fact]
         public void LC_0061_RotateRight()
         {
             var linkList1 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };

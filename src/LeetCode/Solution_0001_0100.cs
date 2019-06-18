@@ -2210,6 +2210,43 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0050
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public double MyPow(double x, int n)
+        {
+            if (n == 0)
+                return 1;
+            int N = n;
+            double multi = x;
+            if (n < 0)
+            {
+                multi = 1 / x;
+                N = -n;
+            }
+            return fastPow(multi, N);
+        }
+
+        private double fastPow(double x, int n)
+        {
+            if (n == 0)
+            {
+                return 1.0;
+            }
+            double half = fastPow(x, n / 2);
+            if (n % 2 == 0)
+            {
+                return half * half;
+            }
+            else
+            {
+                return half * half * x;
+            }
+        }
+
+        /// <summary>
         /// LC_0061
         /// </summary>
         /// <param name="head"></param>
