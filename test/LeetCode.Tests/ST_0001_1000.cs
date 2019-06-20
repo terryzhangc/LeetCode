@@ -681,6 +681,33 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0051_SolveNQueens()
+        {
+            var result = _s.SolveNQueens(2);
+            Assert.True(result.Count == 0);
+            var result1 = _s.SolveNQueens(4);
+            Assert.True(result1[0].ToArray().CompareArray(new string[] {
+                ".Q..",
+                "...Q",
+                "Q...",
+                "..Q." }));
+            Assert.True(result1[1].ToArray().CompareArray(new string[] {
+                "..Q.",
+                "Q...",
+                "...Q",
+                ".Q.." }));
+        }
+
+        [Fact]
+        public void LC_0052_TotalNQueens()
+        {
+            Assert.True(_s.TotalNQueens(2) == 0);
+            Assert.True(_s.TotalNQueens(4) == 2);
+            Assert.True(_s.TotalNQueens(6) == 4);
+            Assert.True(_s.TotalNQueens(8) == 92);
+        }
+
+        [Fact]
         public void LC_0061_RotateRight()
         {
             var linkList1 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };

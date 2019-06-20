@@ -2247,6 +2247,96 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0051
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public IList<IList<string>> SolveNQueens(int n)
+        {
+            //即任意两个皇后都不能处于同一行、同一列或同一斜线上
+            var matrix = new char[n][];
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                matrix[i] = new char[n];
+                Array.Fill(matrix[i], '.');
+            }
+            var column = new bool[n];
+            var left = new bool[2 * n];// =>    /   x-y+n
+            var right = new bool[2 * n];// =>   \   x+y
+            var result = new List<IList<string>>();
+            SearchNQueens(ref matrix, n, 0, ref column, ref left, ref right, ref result);
+            return result;
+        }
+
+        private void SearchNQueens(ref char[][] matrix, int n, int rowIndex, ref bool[] column,
+            ref bool[] left, ref bool[] right,
+            ref List<IList<string>> result)
+        {
+            if (rowIndex >= n)
+            {
+                var list = new List<string>();
+                for (int i = 0; i < n; i++)
+                {
+                    list.Add(new string(matrix[i]));
+                }
+                result.Add(list);
+                return;
+            }
+            for (int c = 0; c < n; c++)
+            {
+                if (!column[c] && !left[c - rowIndex + n] && !right[c + rowIndex])
+                {
+                    matrix[rowIndex][c] = 'Q';
+                    column[c] = true;
+                    left[c - rowIndex + n] = true;
+                    right[c + rowIndex] = true;
+                    SearchNQueens(ref matrix, n, rowIndex + 1, ref column, ref left, ref right, ref result);
+                    matrix[rowIndex][c] = '.';
+                    column[c] = false;
+                    left[c - rowIndex + n] = false;
+                    right[c + rowIndex] = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// LC_0052
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int TotalNQueens(int n)
+        {
+            int count = 0;
+            var column = new bool[n];
+            var left = new bool[2 * n];// =>    /   x-y+n
+            var right = new bool[2 * n];// =>   \   x+y
+            CountNQueens(n, 0, ref column, ref left, ref right, ref count);
+            return count;
+        }
+
+        private void CountNQueens(int n, int rowIndex, ref bool[] column, ref bool[] left, ref bool[] right, ref int count)
+        {
+            if (rowIndex >= n)
+            {
+                count++;
+                return;
+            }
+            for (int c = 0; c < n; c++)
+            {
+                if (!column[c] && !left[c - rowIndex + n] && !right[c + rowIndex])
+                {
+                    column[c] = true;
+                    left[c - rowIndex + n] = true;
+                    right[c + rowIndex] = true;
+                    CountNQueens(n, rowIndex + 1, ref column, ref left, ref right, ref count);
+                    column[c] = false;
+                    left[c - rowIndex + n] = false;
+                    right[c + rowIndex] = false;
+                }
+            }
+        }
+
+        /// <summary>
         /// LC_0061
         /// </summary>
         /// <param name="head"></param>
