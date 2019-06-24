@@ -2052,39 +2052,37 @@ namespace LeetCode
         /// <returns></returns>
         public int Jump(int[] nums)
         {
-            if (nums == null || nums.Length == 1)
+            if (nums == null || nums.Length == 0 || nums.Length == 1)
                 return 0;
-            var steps = new HashSet<int>[nums.Length];
-            var dp = new int[nums.Length];
-            for (int i = 0; i < dp.Length; i++)
+            var dp = new int[nums.Length];//i位置能跳到的最远位置
+            var times = new int[nums.Length];//到达i位置所需的最小次数
+            Array.Fill(times, int.MaxValue);
+            dp[0] = nums[0];
+            times[0] = 0;
+            if (dp[0] >= nums.Length - 1)
+                return 1;
+            for (int i = 1; i < nums.Length; i++)
             {
-                dp[i] = int.MaxValue;
-            }
-            for (int i = 0; i < nums.Length; i++)
-            {
-                for (int j = 1; j > 0 && j <= nums[i] && i + j < nums.Length; j++)
+                if (dp[i - 1] >= i)//能跳跃到当前位置
                 {
-                    if (steps[i + j] == null)
+                    if (i + nums[i] > dp[i - 1])//借助当前点进行跳跃
                     {
-                        steps[i + j] = new HashSet<int>();
+                        dp[i] = i + nums[i];
+                        times[i] = times[i - 1] + 1;
                     }
-                    steps[i + j].Add(i);
-                }
-
-                if (i == 0)
-                {
-                    dp[i] = 0;
+                    else
+                    {
+                        dp[i] = dp[i - 1];
+                        times[i] = times[i - 1];
+                    }
                 }
                 else
                 {
-                    foreach (var item in steps[i])
-                    {
-                        if (dp[item] + 1 < dp[i])
-                            dp[i] = dp[item] + 1;
-                    }
+                    dp[i] = dp[i - 1];
+                    times[i] = int.MaxValue;
                 }
             }
-            return dp[nums.Length - 1];
+            return times[nums.Length - 1];
         }
 
         /// <summary>
@@ -2337,6 +2335,151 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0054
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        public IList<int> SpiralOrder(int[][] matrix)
+        {
+            var list = new List<int>();
+            if (matrix == null || matrix.Length == 0)
+                return list;
+            int upFloor = -1;
+            int rightFloor = matrix[0].Length;
+            int downFloor = matrix.Length;
+            int leftFloor = -1;
+
+            var rowIndex = 0;
+            var columnIndex = 0;
+            var direction = 1;
+            /*
+                1
+             4     2
+                3 
+             */
+            while (leftFloor < columnIndex && columnIndex < rightFloor
+                && upFloor < rowIndex && rowIndex < downFloor)
+            {
+                list.Add(matrix[rowIndex][columnIndex]);
+                //move to next
+                switch (direction)
+                {
+                    case 1://move right 
+                        if (columnIndex + 1 == rightFloor)
+                        {
+                            direction = 2;
+                            upFloor++;
+                            rowIndex++;
+                        }
+                        else if (columnIndex + 1 < rightFloor)
+                        {
+                            columnIndex++;
+                        }
+                        break;
+                    case 2://move down 
+                        if (rowIndex + 1 == downFloor)
+                        {
+                            direction = 3;
+                            rightFloor--;
+                            columnIndex--;
+                        }
+                        else if (rowIndex + 1 < downFloor)
+                        {
+                            rowIndex++;
+                        }
+                        break;
+                    case 3://move left
+                        if (columnIndex - 1 == leftFloor)
+                        {
+                            direction = 4;
+                            downFloor--;
+                            rowIndex--;
+                        }
+                        else if (columnIndex - 1 > leftFloor)
+                        {
+                            columnIndex--;
+                        }
+                        break;
+                    case 4://move up
+                        if (rowIndex - 1 == upFloor)
+                        {
+                            direction = 1;
+                            leftFloor++;
+                            columnIndex++;
+                        }
+                        else if (rowIndex - 1 > upFloor)
+                        {
+                            rowIndex--;
+                        }
+                        break;
+                }
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// LC_0055
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public bool CanJump(int[] nums)
+        {
+            if (nums == null || nums.Length == 0)
+                return true;
+            var dp = new int[nums.Length];
+            dp[0] = nums[0];
+            /*
+             * dp[i] 表示当前位置可以跳跃到的最远数组下表
+             * 如果迁移位置跳不到i位置，则dp[i]=dp[i-1]
+             * 如果迁移位置可以跳到i位置，则dp[i]=max{dp[i - 1], i + nums[i]}
+             */
+            for (int i = 1; i < nums.Length; i++)
+            {
+                if (dp[i - 1] >= i)//能跳跃到当前位置
+                {
+                    dp[i] = Math.Max(dp[i - 1], i + nums[i]);
+                }
+                else
+                {
+                    dp[i] = dp[i - 1];
+                }
+            }
+            return dp[nums.Length - 1] >= nums.Length - 1;
+        }
+
+        /// <summary>
+        /// LC_0058
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public int LengthOfLastWord(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s))
+                return 0;
+            var end = s.Length - 1;
+            while (end >= 0)
+            {
+                if (s[end] != ' ')
+                    break;
+                else
+                    end--;
+            }
+            var length = 0;
+            while (end >= 0)
+            {
+                if (s[end] != ' ')
+                {
+                    length++;
+                    end--;
+                }
+                else
+                    break;
+            }
+            return length;
+        }
+
+        /// <summary>
         /// LC_0061
         /// </summary>
         /// <param name="head"></param>
@@ -2377,6 +2520,84 @@ namespace LeetCode
             tail.next = head;
             PreNode.next = null;
             return curNode;
+        }
+
+        /// <summary>
+        /// LC_0066
+        /// </summary>
+        /// <param name="digits"></param>
+        /// <returns></returns>
+        public int[] PlusOne(int[] digits)
+        {
+            for (int i = digits.Length - 1; i >= 0; i--)
+            {
+                digits[i]++;
+                if (digits[i] % 10 != 0)
+                    return digits;
+                else
+                    digits[i] = 0;
+            }
+            if (digits[0] % 10 == 0)
+            {
+                var newDigits = new int[digits.Length + 1];
+                newDigits[0] = 1;
+                return newDigits;
+            }
+            return digits;
+        }
+
+        /// <summary>
+        /// LC_0067
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public string AddBinary(string a, string b)
+        {
+            var maxLen = a.Length > b.Length ? a.Length : b.Length;
+            var result = new char[maxLen + 1];
+            var pa = a.Length - 1;
+            var pb = b.Length - 1;
+            var pr = result.Length - 1;
+            var preValue = 0;
+            while (pa >= 0 || pb >= 0)
+            {
+                var aValue = pa >= 0 ? (a[pa] - '0') : 0;
+                var bValue = pb >= 0 ? (b[pb] - '0') : 0;
+                var value = aValue + bValue + preValue;
+                if (value == 3)
+                {
+                    result[pr] = '1';
+                    preValue = 1;
+                }
+                else if (value == 2)
+                {
+                    result[pr] = '0';
+                    preValue = 1;
+                }
+                else if (value == 1)
+                {
+                    result[pr] = '1';
+                    preValue = 0;
+                }
+                else
+                {
+                    result[pr] = '0';
+                    preValue = 0;
+                }
+                pb--;
+                pa--;
+                pr--;
+            }
+            if (preValue == 0)
+            {
+                return new string(result, 1, result.Length - 1);
+            }
+            else
+            {
+                result[0] = '1';
+                return new string(result);
+            }
         }
 
         /// <summary>
@@ -2495,6 +2716,41 @@ namespace LeetCode
             greaterCursor.next = null;
             lessCurosr.next = greaterHead;
             return lessHead;
+        }
+
+        /// <summary>
+        /// LC_0088
+        /// </summary>
+        /// <param name="nums1"></param>
+        /// <param name="m"></param>
+        /// <param name="nums2"></param>
+        /// <param name="n"></param>
+        public void Merge(int[] nums1, int m, int[] nums2, int n)
+        {
+            var p1 = m - 1;
+            var p2 = n - 1;
+            var end = m + n - 1;
+            while (p1 >= 0 && p2 >= 0 && end >= 0)
+            {
+                if (nums1[p1] >= nums2[p2])
+                {
+                    nums1[end] = nums1[p1--];
+                }
+                else
+                {
+                    nums1[end] = nums2[p2--];
+                }
+                end--;
+            }
+
+            if (p2 >= 0)
+            {
+                while (p2 >= 0 && end >= 0)
+                {
+                    nums1[end] = nums2[p2--];
+                    end--;
+                }
+            }
         }
 
         /// <summary>
@@ -2768,6 +3024,21 @@ namespace LeetCode
                 return IsValidBST(root.left, min, root.val) && IsValidBST(root.right, root.val, max);
             else
                 return false;
+        }
+
+        /// <summary>
+        /// LC_0100
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="q"></param>
+        /// <returns></returns>
+        public bool IsSameTree(TreeNode p, TreeNode q)
+        {
+            if (p == null && q == null)
+                return true;
+            if ((p == null && q != null) || (p != null && q == null))
+                return false;
+            return (p.val == q.val) && IsSameTree(p.left, q.left) && IsSameTree(p.right, q.right);
         }
     }
 }

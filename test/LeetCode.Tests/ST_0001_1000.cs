@@ -590,9 +590,13 @@ namespace LeetCode.Tests
         [Fact]
         public void LC_0045_Jump()
         {
+            Assert.True(0 == _s.Jump(new int[] { }));
             Assert.True(2 == _s.Jump(new int[] { 2, 3, 1, 1, 4 }));
             Assert.True(0 == _s.Jump(new int[] { 2 }));
             Assert.True(4 == _s.Jump(new int[] { 1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 2 }));
+            Assert.True(1 == _s.Jump(new int[] { 2, 1 }));
+            Assert.True(1 == _s.Jump(new int[] { 1, 2 }));
+            Assert.True(2 == _s.Jump(new int[] { 7, 0, 9, 6, 9, 6, 1, 7, 9, 0, 1, 2, 9, 0, 3 }));
         }
 
         [Fact]
@@ -708,6 +712,57 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0054_SpiralOrder()
+        {
+            var matrix = new int[][]{
+                new int[] { 1, 2 },
+                new int[] { 4, 5 }
+            };
+            var matrix1 = new int[][]{
+                new int[] { 1, 2, 3 },
+                new int[] { 4, 5, 6 },
+                new int[] { 7, 8, 9 }
+            };
+
+            var matrix2 = new int[][]{
+                new int[] { 1, 2, 3 },
+                new int[] { 4, 5, 6 }
+            };
+
+            var matrix3 = new int[][]{
+                new int[] { 1, 2, 3 }
+            };
+
+            var matrix4 = new int[][]{
+                new int[] { 1 }
+            };
+            Assert.True(new int[] { 1, 2, 5, 4 }.CompareArray(_s.SpiralOrder(matrix).ToArray()));
+            Assert.True(new int[] { 1, 2, 3, 6, 9, 8, 7, 4, 5 }.CompareArray(_s.SpiralOrder(matrix1).ToArray()));
+            Assert.True(new int[] { 1, 2, 3, 6, 5, 4 }.CompareArray(_s.SpiralOrder(matrix2).ToArray()));
+            Assert.True(new int[] { 1, 2, 3 }.CompareArray(_s.SpiralOrder(matrix3).ToArray()));
+            Assert.True(new int[] { 1 }.CompareArray(_s.SpiralOrder(matrix4).ToArray()));
+        }
+
+        [Fact]
+        public void LC_0055_CanJump()
+        {
+            Assert.True(_s.CanJump(new int[] { }));
+            Assert.True(_s.CanJump(new int[] { 0 }));
+            Assert.False(_s.CanJump(new int[] { 0, 1 }));
+            Assert.True(_s.CanJump(new int[] { 2, 3, 1, 1, 4 }));
+            Assert.False(_s.CanJump(new int[] { 3, 2, 1, 0, 4 }));
+        }
+
+        [Fact]
+        public void LC_0058_LengthOfLastWord()
+        {
+            Assert.True(5 == _s.LengthOfLastWord("Hello World"));
+            Assert.True(5 == _s.LengthOfLastWord("Hello"));
+            Assert.True(5 == _s.LengthOfLastWord(" Hello "));
+            Assert.True(0 == _s.LengthOfLastWord(" "));
+        }
+
+        [Fact]
         public void LC_0061_RotateRight()
         {
             var linkList1 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };
@@ -719,6 +774,24 @@ namespace LeetCode.Tests
             Assert.True(new int[] { 0, 1, 2 }.CompareArray(_s.RotateRight(linkList3, 3).ToList().ToArray()));
             Assert.True(new int[] { 2, 0, 1 }.CompareArray(_s.RotateRight(linkList4, 4).ToList().ToArray()));
         }
+
+        [Fact]
+        public void LC_0066_PlusOne()
+        {
+            Assert.True(_s.PlusOne(new int[] { 4, 3, 2, 1 }).CompareArray(new int[] { 4, 3, 2, 2 }));
+            Assert.True(_s.PlusOne(new int[] { 4, 3, 9, 9 }).CompareArray(new int[] { 4, 4, 0, 0 }));
+            Assert.True(_s.PlusOne(new int[] { 9, 9, 9, 9 }).CompareArray(new int[] { 1, 0, 0, 0, 0 }));
+        }
+
+        [Fact]
+        public void LC_0067_AddBinary()
+        {
+            Assert.True("100" == _s.AddBinary("11", "1"));
+            Assert.True("111" == _s.AddBinary("111", "0"));
+            Assert.True("10101" == _s.AddBinary("1010", "1011"));
+            Assert.True("11110" == _s.AddBinary("1111", "1111"));
+        }
+
         [Fact]
         public void LC_0082_DeleteDuplicates1()
         {
@@ -761,6 +834,15 @@ namespace LeetCode.Tests
             var linkList2 = ListNode.GenerateList(new int[] { 1, 1 });
             Assert.True(new int[] { 1, 2, 2, 4, 3, 5 }.CompareArray(_s.Partition(linkList1, 3).ToList().ToArray()));
             Assert.True(new int[] { 1, 1 }.CompareArray(_s.Partition(linkList2, 0).ToList().ToArray()));
+        }
+
+        [Fact]
+        public void LC_0088_Merge()
+        {
+            var nums1 = new int[] { 1, 2, 3, 0, 0, 0 };
+            var nums2 = new int[] { 2, 5, 6 };
+            _s.Merge(nums1, 3, nums2, 3);
+            Assert.True(nums1.CompareArray(new int[] { 1, 2, 2, 3, 5, 6 }));
         }
 
         [Fact]
@@ -820,6 +902,18 @@ namespace LeetCode.Tests
             Assert.False(_s.IsValidBST(tree1));
             Assert.True(_s.IsValidBST(tree2));
             Assert.False(_s.IsValidBST(tree3));
+        }
+
+        [Fact]
+        public void LC_0100_IsSameTree()
+        {
+            var tree = new TreeNode(1);
+            tree.left = new TreeNode(2);
+            tree.right = new TreeNode(3);
+            var tree1 = new TreeNode(1);
+            tree1.left = new TreeNode(2);
+            tree1.right = new TreeNode(3);
+            Assert.True(_s.IsSameTree(tree, tree1));
         }
     }
 }
