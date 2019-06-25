@@ -802,6 +802,27 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0078_Subsets()
+        {
+            var result = _s.Subsets(new int[] { });
+            Assert.True(result.Count == 1);
+            Assert.True(result[0].Count == 0);
+            var result1 = _s.Subsets(new int[] { 1, 2, 3 });
+            Assert.True(result1.Count == 8);
+            var expectList = new List<string>() {
+                "3",
+                "1",
+                "2",
+                "1,2,3",
+                "1,3",
+                "2,3",
+                "1,2",
+                ""
+            };
+            Assert.True(result1.Select(l => string.Join(',', l)).CompareSet(expectList));
+        }
+
+        [Fact]
         public void LC_0082_DeleteDuplicates1()
         {
             var linkList1 = new ListNode(1) { next = new ListNode(1) { next = new ListNode(2) } };

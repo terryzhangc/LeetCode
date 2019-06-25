@@ -2621,6 +2621,40 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0078
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<IList<int>> Subsets(int[] nums)
+        {
+            var result = new List<IList<int>>();
+            var selected = new bool[nums.Length];
+            Subsets(ref nums, ref selected, 0, ref result);
+            return result;
+        }
+
+        private void Subsets(ref int[] nums, ref bool[] selected, int index, ref List<IList<int>> result)
+        {
+            if (index == nums.Length)
+            {
+                var list = new List<int>();
+                for (int i = 0; i < selected.Length; i++)
+                {
+                    if (selected[i])
+                        list.Add(nums[i]);
+
+                }
+                result.Add(list);
+                return;
+            }
+
+            selected[index] = false;
+            Subsets(ref nums, ref selected, index + 1, ref result);
+            selected[index] = true;
+            Subsets(ref nums, ref selected, index + 1, ref result);
+        }
+
+        /// <summary>
         /// LC_0082
         /// </summary>
         /// <param name="head"></param>
@@ -2771,6 +2805,24 @@ namespace LeetCode
                     end--;
                 }
             }
+        }
+
+        /// <summary>
+        /// LC_0089
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public IList<int> GrayCode(int n)
+        {
+            var result = new List<int>();
+            int temp = 0;
+            GrayCode(n, ref temp, ref result);
+            return result;
+        }
+
+        private void GrayCode(int n, ref int temp, ref List<int> result)
+        {
+
         }
 
         /// <summary>
