@@ -2601,6 +2601,26 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0069
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public int MySqrt(int x)
+        {
+            if (x == 0)
+                return 0;
+            double value = x;
+            var times = 60;
+            while (times > 0)
+            {
+                value = (value + x / value) / 2;
+                times--;
+            }
+
+            return (int)value;
+        }
+
+        /// <summary>
         /// LC_0082
         /// </summary>
         /// <param name="head"></param>

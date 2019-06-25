@@ -793,6 +793,15 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0069_MySqrt()
+        {
+            Assert.True((int)Math.Sqrt(5) == _s.MySqrt(5));
+            Assert.True((int)Math.Sqrt(4) == _s.MySqrt(4));
+            Assert.True((int)Math.Sqrt(99) == _s.MySqrt(99));
+            Assert.True((int)Math.Sqrt(992222) == _s.MySqrt(992222));
+        }
+
+        [Fact]
         public void LC_0082_DeleteDuplicates1()
         {
             var linkList1 = new ListNode(1) { next = new ListNode(1) { next = new ListNode(2) } };
