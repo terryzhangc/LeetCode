@@ -804,6 +804,23 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0063_UniquePathsWithObstacles()
+        {
+            var matrix = new int[][]{
+                new int[] { 0, 0, 0 },
+                new int[] { 0, 1, 0 },
+                new int[] { 0, 0, 0 },
+            };
+            Assert.True(2 == _s.UniquePathsWithObstacles(matrix));
+            Assert.True(0 == _s.UniquePathsWithObstacles(new int[][]{
+                new int[] { 1 },
+            }));
+            Assert.True(0 == _s.UniquePathsWithObstacles(new int[][]{
+                new int[] { 0, 1 },
+            }));
+        }
+
+        [Fact]
         public void LC_0061_RotateRight()
         {
             var linkList1 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };
