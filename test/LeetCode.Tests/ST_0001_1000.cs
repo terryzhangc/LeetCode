@@ -337,7 +337,7 @@ namespace LeetCode.Tests
         }
 
         [Fact]
-        public void LC_0028_LC_0028_StrStr_Test()
+        public void LC_0028_StrStr_Test()
         {
             Assert.Equal(2, _s.StrStr("hello", "ll"));
             Assert.Equal(-1, _s.StrStr("aaaaa", "bba"));
@@ -743,6 +743,27 @@ namespace LeetCode.Tests
             Assert.True(new int[] { 1 }.CompareArray(_s.SpiralOrder(matrix4).ToArray()));
         }
 
+
+        [Fact]
+        public void LC_0056_Merge()
+        {
+            var matrix = new int[][]{
+                new int[] { 1, 3 },
+                new int[] { 2, 6 },
+                new int[] { 8, 10 },
+                new int[] { 15, 18 },
+            };
+            var expect = new int[][]{
+                new int[] { 1, 6 },
+                new int[] { 8, 10 },
+                new int[] { 15, 18 },
+            };
+            var result = _s.Merge(matrix);
+            Assert.True(expect[0].CompareArray(result[0]));
+            Assert.True(expect[1].CompareArray(result[1]));
+            Assert.True(expect[2].CompareArray(result[2]));
+        }
+
         [Fact]
         public void LC_0055_CanJump()
         {
@@ -760,6 +781,26 @@ namespace LeetCode.Tests
             Assert.True(5 == _s.LengthOfLastWord("Hello"));
             Assert.True(5 == _s.LengthOfLastWord(" Hello "));
             Assert.True(0 == _s.LengthOfLastWord(" "));
+        }
+        [Fact]
+        public void LC_0059_GenerateMatrix()
+        {
+            var result = _s.GenerateMatrix(1);
+            Assert.True(result[0][0] == 1);
+            var result1 = _s.GenerateMatrix(2);
+            Assert.True(result1[0][0] == 1 && result1[0][1] == 2
+                     && result1[1][0] == 4 && result1[1][1] == 3);
+            var result2 = _s.GenerateMatrix(3);
+            Assert.True(result2[0][0] == 1 && result2[0][1] == 2 && result2[0][2] == 3
+                     && result2[1][0] == 8 && result2[1][1] == 9 && result2[1][2] == 4
+                     && result2[2][0] == 7 && result2[2][1] == 6 && result2[2][2] == 5);
+        }
+
+        [Fact]
+        public void LC_0062_UniquePaths()
+        {
+            Assert.True(3 == _s.UniquePaths(3, 2));
+            Assert.True(28 == _s.UniquePaths(7, 3));
         }
 
         [Fact]

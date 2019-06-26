@@ -58,6 +58,7 @@ namespace LeetCode
             {
                 outPut.Add(new List<int>(array));
             }
+            //当前规模，选i位置分别交换剩下位置
             for (int i = start; i < array.Length; i++)
             {
                 Swap(ref array, i, start);

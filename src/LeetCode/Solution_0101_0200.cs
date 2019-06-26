@@ -216,6 +216,7 @@ namespace LeetCode
             if (slowCursor == slowCursor.next)
                 return slowCursor;
 
+            //计算环的大小
             var circleCount = 0;
             do
             {
@@ -225,13 +226,13 @@ namespace LeetCode
 
              slowCursor = head;
              fastCursor = head;
-
+            //fast先走count步
             while (circleCount > 0)
             {
                 fastCursor = fastCursor.next;
                 circleCount--;
             }
-
+            //slow从头开始走x-count步相汇点为环开始节点
             while (fastCursor != slowCursor)
             {
                 slowCursor = slowCursor.next;

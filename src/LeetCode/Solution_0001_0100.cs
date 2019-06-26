@@ -2054,35 +2054,25 @@ namespace LeetCode
         {
             if (nums == null || nums.Length == 0 || nums.Length == 1)
                 return 0;
-            var dp = new int[nums.Length];//i位置能跳到的最远位置
-            var times = new int[nums.Length];//到达i位置所需的最小次数
-            Array.Fill(times, int.MaxValue);
-            dp[0] = nums[0];
-            times[0] = 0;
-            if (dp[0] >= nums.Length - 1)
-                return 1;
-            for (int i = 1; i < nums.Length; i++)
+            //当前步骤跳跃最远距离
+            int maxJumpPosition = 0;
+            //前一次边界内可到达的下一次最远边界
+            int end = 0;
+            int steps = 0;
+            for (int i = 0; i < nums.Length; i++)
             {
-                if (dp[i - 1] >= i)//能跳跃到当前位置
+                maxJumpPosition = Math.Max(i + nums[i], maxJumpPosition);
+                //遍历到前一次最远边界更新下一次最远边界
+                if(i == end)
                 {
-                    if (i + nums[i] > dp[i - 1])//借助当前点进行跳跃
-                    {
-                        dp[i] = i + nums[i];
-                        times[i] = times[i - 1] + 1;
-                    }
-                    else
-                    {
-                        dp[i] = dp[i - 1];
-                        times[i] = times[i - 1];
-                    }
-                }
-                else
-                {
-                    dp[i] = dp[i - 1];
-                    times[i] = int.MaxValue;
+                    end = maxJumpPosition;
+                    steps++;
+                    //可以跳跃到末尾跳出
+                    if (end >= nums.Length - 1)
+                        break;
                 }
             }
-            return times[nums.Length - 1];
+            return steps;
         }
 
         /// <summary>
@@ -2449,6 +2439,141 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0056
+        /// </summary>
+        /// <param name="intervals"></param>
+        /// <returns></returns>
+        public int[][] Merge(int[][] intervals)
+        {
+            if (intervals == null || intervals.Length == 0 || intervals.Length == 1)
+                return intervals;
+            Array.Sort(intervals, new ArrayComparer());
+            var result = new List<int[]>();
+            foreach (var range in intervals)
+            {
+                if (result.Count == 0)
+                    result.Add(range);
+                else
+                {
+                    var last = result.Last();
+                    if (range[1] < last[0] || range[0] > last[1])
+                    {
+                        result.Add(range);
+                    }
+                    else if (range[0] > last[0] && range[0] <= last[1] && range[1] > last[1])
+                    {
+                        last[1] = range[1];
+                    }
+                    else if (range[1] >= last[0] && range[1] < last[1] && range[0] < last[0])
+                    {
+                        last[0] = range[0];
+                    }
+                    else if (range[0] <= last[0] && range[1] >= last[1])
+                    {
+                        last[0] = range[0];
+                        last[1] = range[1];
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+
+        internal class ArrayComparer : IComparer<int[]>
+        {
+            public int Compare(int[] x, int[] y)
+            {
+                return x[0] - y[0];
+            }
+        }
+
+        /// <summary>
+        /// LC_0059
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int[][] GenerateMatrix(int n)
+        {
+            var matrix = new int[n][];
+            for (int i = 0; i < n; i++)
+            {
+                matrix[i] = new int[n];
+            }
+            int upFloor = -1;
+            int rightFloor = matrix[0].Length;
+            int downFloor = matrix.Length;
+            int leftFloor = -1;
+
+            var rowIndex = 0;
+            var columnIndex = 0;
+            var direction = 1;
+            /*
+                1
+             4     2
+                3 
+             */
+            var number = 1;
+            while (leftFloor < columnIndex && columnIndex < rightFloor
+                && upFloor < rowIndex && rowIndex < downFloor)
+            {
+                matrix[rowIndex][columnIndex] = number++;
+                //move to next
+                switch (direction)
+                {
+                    case 1://move right 
+                        if (columnIndex + 1 == rightFloor)
+                        {
+                            direction = 2;
+                            upFloor++;
+                            rowIndex++;
+                        }
+                        else if (columnIndex + 1 < rightFloor)
+                        {
+                            columnIndex++;
+                        }
+                        break;
+                    case 2://move down 
+                        if (rowIndex + 1 == downFloor)
+                        {
+                            direction = 3;
+                            rightFloor--;
+                            columnIndex--;
+                        }
+                        else if (rowIndex + 1 < downFloor)
+                        {
+                            rowIndex++;
+                        }
+                        break;
+                    case 3://move left
+                        if (columnIndex - 1 == leftFloor)
+                        {
+                            direction = 4;
+                            downFloor--;
+                            rowIndex--;
+                        }
+                        else if (columnIndex - 1 > leftFloor)
+                        {
+                            columnIndex--;
+                        }
+                        break;
+                    case 4://move up
+                        if (rowIndex - 1 == upFloor)
+                        {
+                            direction = 1;
+                            leftFloor++;
+                            columnIndex++;
+                        }
+                        else if (rowIndex - 1 > upFloor)
+                        {
+                            rowIndex--;
+                        }
+                        break;
+                }
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
         /// LC_0058
         /// </summary>
         /// <param name="s"></param>
@@ -2520,6 +2645,35 @@ namespace LeetCode
             tail.next = head;
             PreNode.next = null;
             return curNode;
+        }
+
+        /// <summary>
+        /// LC_0062
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int UniquePaths(int m, int n)
+        {
+            var dp = new int[m, n];
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (i == 0 && j == 0)
+                    {
+                        dp[i, j] = 1;
+                    }
+                    else
+                    {
+                        //left + up
+                        var left = i - 1 < 0 ? 0 : dp[i - 1, j];
+                        var up = j - 1 < 0 ? 0 : dp[i, j - 1];
+                        dp[i, j] = left + up;
+                    }
+                }
+            }
+            return dp[m - 1, n - 1];
         }
 
         /// <summary>
