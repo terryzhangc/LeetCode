@@ -2757,87 +2757,6 @@ namespace LeetCode
         }
 
         /// <summary>
-        /// LC_0073
-        /// </summary>
-        /// <param name="matrix"></param>
-        public void SetZeroes(int[][] matrix)
-        {
-            var m = matrix.Length;
-            var n = matrix[0].Length;
-            var rowSet = new HashSet<int>();
-            var columnSet = new HashSet<int>();
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    if (matrix[i][j] == 0)
-                    {
-                        rowSet.Add(i);
-                        columnSet.Add(j);
-                    }
-                }
-            }
-            foreach (var item in rowSet)
-            {
-                for (int c = 0; c < n; c++)
-                {
-                    matrix[item][c] = 0;
-                }
-            }
-
-            foreach (var item in columnSet)
-            {
-                for (int r = 0; r < m; r++)
-                {
-                    matrix[r][item] = 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// LC_0074
-        /// </summary>
-        /// <param name="matrix"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        public bool SearchMatrix(int[][] matrix, int target)
-        {
-            int row = matrix.Length;
-            int column = matrix[0].Length;
-            if (target > matrix[row - 1][column - 1] || target < matrix[0][0])
-                return false;
-            int leftRow = 0;
-            int leftColumn = 0;
-            int rightRow = row;
-            int rightColumn = column;
-            int findRow = 0;
-            //find row
-            if (target >= matrix[row - 1][0])
-            {
-                findRow = row - 1;
-            }
-            else
-            {
-                while (leftRow != rightRow)
-                {
-                    int middleRow = (leftRow + rightRow) / 2;
-                    if (matrix[middleRow][0] <= target)
-                    {
-                        leftRow = middleRow;
-                    }
-                    else
-                    {
-                        rightRow = middleRow + 1;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-
-        /// <summary>
         /// LC_0066
         /// </summary>
         /// <param name="digits"></param>
@@ -2936,6 +2855,156 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0073
+        /// </summary>
+        /// <param name="matrix"></param>
+        public void SetZeroes(int[][] matrix)
+        {
+            var m = matrix.Length;
+            var n = matrix[0].Length;
+            var rowSet = new HashSet<int>();
+            var columnSet = new HashSet<int>();
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (matrix[i][j] == 0)
+                    {
+                        rowSet.Add(i);
+                        columnSet.Add(j);
+                    }
+                }
+            }
+            foreach (var item in rowSet)
+            {
+                for (int c = 0; c < n; c++)
+                {
+                    matrix[item][c] = 0;
+                }
+            }
+
+            foreach (var item in columnSet)
+            {
+                for (int r = 0; r < m; r++)
+                {
+                    matrix[r][item] = 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// LC_0074
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public bool SearchMatrix(int[][] matrix, int target)
+        {
+            if (matrix == null || matrix.Length == 0 || matrix[0] == null || matrix[0].Length == 0)
+                return false;
+
+            int row = matrix.Length;
+            int column = matrix[0].Length;
+            if (target > matrix[row - 1][column - 1] || target < matrix[0][0])
+                return false;
+            //2维数组视为1维0...row*column-1
+            //array[i] = matrix[i/column][i%column]
+            int left = 0;
+            int right = row * column - 1;
+            while (left <= right)
+            {
+                var middle = (left + right) / 2;
+                var middleValue = matrix[middle / column][middle % column];
+                if (target == middleValue)
+                {
+                    return true;
+                }
+                else if (target < middleValue)
+                {
+                    right = middle - 1;
+                }
+                else
+                {
+                    left = middle + 1;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// LC_0075
+        /// </summary>
+        /// <param name="nums"></param>
+        public void SortColors(int[] nums)
+        {
+            if (nums == null || nums.Length == 0 || nums.Length == 1)
+                return;
+            int left = 0;
+            int right = nums.Length - 1;
+            int index = 0;
+            while (nums[left] == 0 && nums[right] == 2 && left <= right)
+            {
+                left++;
+                right--;
+            }
+            while (index <= right)
+            {
+                //index >= left，index需要保持在left之后，交换才有意义
+                if (nums[index] == 0 && index >= left)
+                {
+                    //交换过后的新值可能仍发生交换，所以不增加index
+                    Swap(ref nums, left, index);
+                    left++;
+                }
+                else if (nums[index] == 2)
+                {
+                    Swap(ref nums, right, index);
+                    right--;
+                }
+                else
+                {
+                    index++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// LC_0077
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public IList<IList<int>> Combine(int n, int k)
+        {
+            var result = new List<IList<int>>();
+            var selected = new List<int>();
+            Combine(ref result, ref selected,1, n, k);
+            return result;
+        }
+
+        private void Combine(ref List<IList<int>> result, ref List<int> selected, int start, int n, int k)
+        {
+            /*
+             * 遍历start到n
+             * 将整数 i 添加到现有组合 selected
+             * 继续向组合中添加更多整数:Combine(i + 1, n)
+             * 将 i 从 selected实现回溯
+             */
+            if (selected.Count == k)
+            {
+                result.Add(new List<int>(selected));
+                return;
+            }
+            for (int i = start; i <= n; i++)
+            {
+                selected.Add(i);
+                Combine(ref result, ref selected, i + 1, n, k);
+                selected.RemoveAt(selected.Count - 1);
+            }
+        }
+
+        /// <summary>
         /// LC_0078
         /// </summary>
         /// <param name="nums"></param>
@@ -2967,6 +3036,71 @@ namespace LeetCode
             Subsets(ref nums, ref selected, index + 1, ref result);
             selected[index] = true;
             Subsets(ref nums, ref selected, index + 1, ref result);
+        }
+
+        /// <summary>
+        /// LC_0079
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public bool Exist(char[][] board, string word)
+        {
+            var row = board.Length;
+            var col = board[0].Length;
+            var foot = new bool[row, col];
+
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    if (board[i][j] == word[0] && Exist(ref board, ref foot, i, j, ref word, 0))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool Exist(ref char[][] board, ref bool[,] foot, int i, int j, ref string word, int start)
+        {
+            if (start == word.Length - 1)
+                return true;
+            var row = board.Length;
+            var col = board[0].Length;
+            //set current step
+            foot[i, j] = true;
+            //set next step
+            //up [i-1,j]
+            if (i - 1 >= 0 && foot[i - 1, j] == false && board[i - 1][j] == word[start + 1]
+                && Exist(ref board, ref foot, i - 1, j, ref word, start + 1))
+            {
+                return true;
+            }
+            //down[i+1,j]
+            if (i + 1 < row && foot[i + 1, j] == false && board[i + 1][j] == word[start + 1]
+                && Exist(ref board, ref foot, i + 1, j, ref word, start + 1))
+            {
+                return true;
+            }
+            //left [i,j-1]
+            if (j - 1 >= 0 && foot[i, j - 1] == false && board[i][j - 1] == word[start + 1]
+                && Exist(ref board, ref foot, i, j - 1, ref word, start + 1))
+            {
+                return true;
+            }
+            //right [i,j+1]
+            if (j + 1 < col && foot[i, j + 1] == false && board[i][j + 1] == word[start + 1]
+                && Exist(ref board, ref foot, i, j + 1, ref word, start + 1))
+            {
+                return true;
+            }
+
+            foot[i, j] = false;
+
+            return false;
         }
 
         /// <summary>

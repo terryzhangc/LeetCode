@@ -908,6 +908,45 @@ namespace LeetCode.Tests
             };
             Assert.True(_s.SearchMatrix(matrix, 3));
             Assert.False(_s.SearchMatrix(matrix1, 13));
+            Assert.True(_s.SearchMatrix(
+                new int[][] {
+                new int[] { 1, 3, 5, 7 }
+            }, 3));
+            Assert.False(_s.SearchMatrix(
+                new int[][] {
+            }, 3));
+            Assert.False(_s.SearchMatrix(
+                new int[][] {
+                new int[] { }
+            }, 3));
+
+            Assert.True(_s.SearchMatrix(
+                new int[][] {
+                new int[] { 3 }
+            }, 3));
+
+            Assert.False(_s.SearchMatrix(
+                new int[][] {
+                new int[] { 1 },
+                new int[] { 3 },
+            }, 2));
+        }
+
+        [Fact]
+        public void LC_0075_SortColors()
+        {
+            var array = new int[] { 2, 0, 2, 1, 1, 0 };
+            var array1 = new int[] { 2, 0, 2, 1 };
+            _s.SortColors(array);
+            _s.SortColors(array1);
+            Assert.True(array.CompareArray(new int[] { 0, 0, 1, 1, 2, 2 }));
+            Assert.True(array1.CompareArray(new int[] { 0, 1, 2, 2 }));
+        }
+
+        [Fact]
+        public void LC_0077_Combine()
+        {
+            Assert.True(_s.Combine(4, 2).Count == 6);
         }
 
         [Fact]
@@ -929,6 +968,20 @@ namespace LeetCode.Tests
                 ""
             };
             Assert.True(result1.Select(l => string.Join(',', l)).CompareSet(expectList));
+        }
+
+        [Fact]
+        public void LC_0079_Exist()
+        {
+            var matrix = new char[][]
+            {
+                new char[]{ 'A', 'B', 'C', 'E' },
+                new char[]{ 'S', 'F', 'C', 'S' },
+                new char[]{ 'A', 'D', 'E', 'E' },
+            };
+            Assert.True(_s.Exist(matrix, "ABCCED"));
+            Assert.True(_s.Exist(matrix, "SEE"));
+            Assert.False(_s.Exist(matrix, "ABCB"));
         }
 
         [Fact]
