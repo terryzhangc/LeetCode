@@ -870,7 +870,7 @@ namespace LeetCode.Tests
         }
 
         [Fact]
-        public void LC_0074_SetZeroes()
+        public void LC_0073_SetZeroes()
         {
             var matrix = new int[][] {
                 new int[] { 1, 1, 1 },
@@ -891,6 +891,23 @@ namespace LeetCode.Tests
             Assert.True(matrix1[0].CompareArray(new int[] { 0, 0, 0, 0 }));
             Assert.True(matrix1[1].CompareArray(new int[] { 0, 4, 5, 0 }));
             Assert.True(matrix1[2].CompareArray(new int[] { 0, 3, 1, 0 }));
+        }
+
+        [Fact]
+        public void LC_0074_SearchMatrix()
+        {
+            var matrix = new int[][] {
+                new int[] { 1,   3,  5, 7 },
+                new int[] { 10, 11, 16, 20 },
+                new int[] { 23, 30, 34, 50 },
+            };
+            var matrix1 = new int[][] {
+                new int[] { 1,   3,  5,  7 },
+                new int[] { 10, 11, 16, 20 },
+                new int[] { 23, 30, 34, 50 },
+            };
+            Assert.True(_s.SearchMatrix(matrix, 3));
+            Assert.False(_s.SearchMatrix(matrix1, 13));
         }
 
         [Fact]

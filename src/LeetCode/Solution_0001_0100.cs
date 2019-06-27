@@ -2757,7 +2757,7 @@ namespace LeetCode
         }
 
         /// <summary>
-        /// LC_0074
+        /// LC_0073
         /// </summary>
         /// <param name="matrix"></param>
         public void SetZeroes(int[][] matrix)
@@ -2794,6 +2794,48 @@ namespace LeetCode
                 }
             }
         }
+
+        /// <summary>
+        /// LC_0074
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public bool SearchMatrix(int[][] matrix, int target)
+        {
+            int row = matrix.Length;
+            int column = matrix[0].Length;
+            if (target > matrix[row - 1][column - 1] || target < matrix[0][0])
+                return false;
+            int leftRow = 0;
+            int leftColumn = 0;
+            int rightRow = row;
+            int rightColumn = column;
+            int findRow = 0;
+            //find row
+            if (target >= matrix[row - 1][0])
+            {
+                findRow = row - 1;
+            }
+            else
+            {
+                while (leftRow != rightRow)
+                {
+                    int middleRow = (leftRow + rightRow) / 2;
+                    if (matrix[middleRow][0] <= target)
+                    {
+                        leftRow = middleRow;
+                    }
+                    else
+                    {
+                        rightRow = middleRow + 1;
+                    }
+                }
+            }
+
+            return false;
+        }
+
 
         /// <summary>
         /// LC_0066
