@@ -821,6 +821,16 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0064_MinPathSum()
+        {
+            Assert.True(7 == _s.MinPathSum(new int[][]{
+                new int[] { 1, 3, 1 },
+                new int[] { 1, 5, 1 },
+                new int[] { 4, 2, 1 },
+            }));
+        }
+
+        [Fact]
         public void LC_0061_RotateRight()
         {
             var linkList1 = new ListNode(0) { next = new ListNode(1) { next = new ListNode(2) } };
@@ -857,6 +867,30 @@ namespace LeetCode.Tests
             Assert.True((int)Math.Sqrt(4) == _s.MySqrt(4));
             Assert.True((int)Math.Sqrt(99) == _s.MySqrt(99));
             Assert.True((int)Math.Sqrt(992222) == _s.MySqrt(992222));
+        }
+
+        [Fact]
+        public void LC_0074_SetZeroes()
+        {
+            var matrix = new int[][] {
+                new int[] { 1, 1, 1 },
+                new int[] { 1, 0, 1 },
+                new int[] { 1, 1, 1 },
+            };
+            var matrix1 = new int[][] {
+                new int[] { 0, 1, 2, 0 },
+                new int[] { 3, 4, 5, 2 },
+                new int[] { 1, 3, 1, 5 },
+            };
+            _s.SetZeroes(matrix);
+            Assert.True(matrix[0].CompareArray(new int[] { 1, 0, 1 }));
+            Assert.True(matrix[1].CompareArray(new int[] { 0, 0, 0 }));
+            Assert.True(matrix[2].CompareArray(new int[] { 1, 0, 1 }));
+
+            _s.SetZeroes(matrix1);
+            Assert.True(matrix1[0].CompareArray(new int[] { 0, 0, 0, 0 }));
+            Assert.True(matrix1[1].CompareArray(new int[] { 0, 4, 5, 0 }));
+            Assert.True(matrix1[2].CompareArray(new int[] { 0, 3, 1, 0 }));
         }
 
         [Fact]

@@ -2720,6 +2720,82 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0064
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        public int MinPathSum(int[][] grid)
+        {
+            var m = grid.Length;
+            var n = grid[0].Length;
+            var dp = new int[m, n];
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (i == 0 && j == 0)
+                    {
+                        dp[j, j] = grid[0][0];
+                    }
+                    else
+                    {
+                        var left = int.MaxValue;
+                        if (i - 1 >= 0)
+                        {
+                            left = dp[i - 1, j];
+                        }
+                        var up = int.MaxValue;
+                        if (j - 1 >= 0)
+                        {
+                            up = dp[i, j - 1];
+                        }
+                        dp[i, j] = grid[i][j] + Math.Min(up, left);
+                    }
+                }
+            }
+            return dp[m - 1, n - 1];
+        }
+
+        /// <summary>
+        /// LC_0074
+        /// </summary>
+        /// <param name="matrix"></param>
+        public void SetZeroes(int[][] matrix)
+        {
+            var m = matrix.Length;
+            var n = matrix[0].Length;
+            var rowSet = new HashSet<int>();
+            var columnSet = new HashSet<int>();
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (matrix[i][j] == 0)
+                    {
+                        rowSet.Add(i);
+                        columnSet.Add(j);
+                    }
+                }
+            }
+            foreach (var item in rowSet)
+            {
+                for (int c = 0; c < n; c++)
+                {
+                    matrix[item][c] = 0;
+                }
+            }
+
+            foreach (var item in columnSet)
+            {
+                for (int r = 0; r < m; r++)
+                {
+                    matrix[r][item] = 0;
+                }
+            }
+        }
+
+        /// <summary>
         /// LC_0066
         /// </summary>
         /// <param name="digits"></param>
