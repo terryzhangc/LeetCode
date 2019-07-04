@@ -3104,6 +3104,25 @@ namespace LeetCode
         }
 
         /// <summary>
+        /// LC_0080
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int RemoveDuplicates80(int[] nums)
+        {
+            if (nums == null || nums.Length < 3)
+                return nums.Length;
+
+            var nextIndex = 2;
+            for (int i = 1; i < nums.Length; i++)
+            {
+
+            }
+
+            return 0;
+        }
+
+        /// <summary>
         /// LC_0082
         /// </summary>
         /// <param name="head"></param>
@@ -3264,14 +3283,77 @@ namespace LeetCode
         public IList<int> GrayCode(int n)
         {
             var result = new List<int>();
-            int temp = 0;
-            GrayCode(n, ref temp, ref result);
+            for (int i = 0; i < 1 << n; i++)
+            {
+                result.Add((i >> 1) ^ i);
+            }
             return result;
         }
 
-        private void GrayCode(int n, ref int temp, ref List<int> result)
+        /// <summary>
+        /// LC_0090
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<IList<int>> SubsetsWithDup(int[] nums)
         {
+            var result = new List<IList<int>>();
+            Array.Sort(nums);
+            SubsetsWithDup(new List<int>(), ref nums, 0, ref result);
+            return result;
+        }
 
+        private void SubsetsWithDup(List<int> selected, ref int[] nums, int start, ref List<IList<int>> result)
+        {
+            result.Add(new List<int>(selected));
+            for (int i = start; i < nums.Length; i++)
+            {
+                if (i > start && nums[i] == nums[i - 1])
+                {
+                    continue;
+                }
+                selected.Add(nums[i]);
+                SubsetsWithDup(selected, ref nums, i + 1, ref result);
+                selected.RemoveAt(selected.Count - 1);
+            }
+        }
+
+        /// <summary>
+        /// LC_0091
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public int NumDecodings(string s)
+        {
+            if (s == null || s.Length == 0)
+                return 0;
+            if (s[0] == '0')
+                return 0;
+            s = s.Replace("10", "  ").Replace("20", "  ");
+            if (s.IndexOf("0") != -1)
+                return 0;
+            var dp = new int[s.Length];
+            dp[0] = 1;
+            for (int i = 1; i < s.Length; i++)
+            {
+                if (s[i] == ' ')
+                {
+                    dp[i] = dp[i - 1];
+                    continue;
+                }
+                var currentValue = s[i] - '0';
+                var value = (s[i - 1] - '0') * 10 + currentValue;
+                if (value > currentValue && value <= 26)
+                {
+                    var pre = i - 2 >= 0 ? dp[i - 2] : 1;
+                    dp[i] = dp[i - 1] + pre;
+                }
+                else
+                {
+                    dp[i] = dp[i - 1];
+                }
+            }
+            return dp[s.Length - 1];
         }
 
         /// <summary>

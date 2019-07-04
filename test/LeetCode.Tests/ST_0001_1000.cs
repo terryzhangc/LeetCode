@@ -985,6 +985,15 @@ namespace LeetCode.Tests
         }
 
         [Fact]
+        public void LC_0080_RemoveDuplicates()
+        {
+            var nums = new int[] { 1, 1, 1, 2, 2, 3 };
+            var nums1 = new int[] { 0, 0, 1, 1, 1, 1, 2, 3, 3 };
+            Assert.True(5 == _s.RemoveDuplicates80(nums));
+            Assert.True(7 == _s.RemoveDuplicates80(nums1));
+        }
+
+        [Fact]
         public void LC_0082_DeleteDuplicates1()
         {
             var linkList1 = new ListNode(1) { next = new ListNode(1) { next = new ListNode(2) } };
@@ -1035,6 +1044,49 @@ namespace LeetCode.Tests
             var nums2 = new int[] { 2, 5, 6 };
             _s.Merge(nums1, 3, nums2, 3);
             Assert.True(nums1.CompareArray(new int[] { 1, 2, 2, 3, 5, 6 }));
+        }
+
+        [Fact]
+        public void LC_0089_GrayCode()
+        {
+            var expect = new int[] { 0b0000, 0b0001, 0b0011, 0b0010, 0b0110, 0b0111, 0b0101, 0b0100 };
+            Assert.True(_s.GrayCode(3).ToArray().CompareArray(expect));
+        }
+
+        [Fact]
+        public void LC_0090_SubsetsWithDup()
+        {
+            var result = _s.SubsetsWithDup(new int[] { 1, 2, 2 });
+
+            var expectList = new List<string>() {
+                "2",
+                "1",
+                "1,2,2",
+                "2,2",
+                "1,2",
+                ""
+            };
+            Assert.True(result.Select(l => string.Join(',', l)).CompareSet(expectList));
+        }
+
+        [Fact]
+        public void LC_0091_NumDecodings()
+        {
+
+            /*
+             2
+             21 => 2,1  21
+             212=> 2,1,2    21,2    2,12
+             2123=>2,1,2,3    21,2,3    2,12,3  2,1,23  21,23
+             
+             */
+
+
+            Assert.True(2 == _s.NumDecodings("12"));
+            Assert.True(3 == _s.NumDecodings("226"));
+            Assert.True(1 == _s.NumDecodings("120102"));
+            Assert.True(5 == _s.NumDecodings("2123"));
+            Assert.True(5 == _s.NumDecodings("120102123"));
         }
 
         [Fact]
